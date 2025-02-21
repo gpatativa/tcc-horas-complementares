@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Aluno</title>
+    <link rel="stylesheet" href="aluno_form.css">
+    <script defer src="aluno_form.js"></script> <!-- Validação com JS -->
+</head>
+<body>
+    <div class="container">
+        <h2>Cadastro de Aluno</h2>
+        <form method="POST" action="../../BackEnd/Aluno/aluno_processamento.php">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" required>
+            
+            <label for="ra">RA:</label>
+            <input type="text" id="ra" name="ra" required>
+
+            <label for="curso">Curso:</label>
+            <input type="text" id="curso" name="curso" required>
+
+            <label for="periodo">Período:</label>
+            <select id="periodo" name="periodo" required>
+                <option value="1° Semestre">1° Semestre</option>
+                <option value="2° Semestre">2° Semestre</option>
+                <option value="3° Semestre">3° Semestre</option>
+                <option value="4° Semestre">4° Semestre</option>
+                <option value="5° Semestre">5° Semestre</option>
+            </select>
+
+            <label for="senha">Senha:</label>
+            <input type="password" id="senha" name="senha" required>
+            <span id="erro-senha" class="erro-msg"></span> <!-- Mensagem de erro -->
+
+            <button type="submit">Cadastrar</button>
+        </form>
+    </div>
+</body>
+</html>
