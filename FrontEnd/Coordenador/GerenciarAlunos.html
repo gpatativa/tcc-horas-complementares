@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma do Coordenador</title>
+    <link rel="stylesheet" href="PlataformaCoordenador.css">
+</head>
+<body>
+
+    <div class="menu-lateral">
+        <h2>Menu</h2>
+        <ul>
+            <li><a href="HomeCoordenador.html" onclick="mostrarSecao('home')">🏠 Home</a></li>
+            <li><a href="#" onclick="mostrarSecao('perfil')">👤 Perfil</a></li>
+            <li><a href="GerenciarAlunos.html" onclick="mostrarSecao('gerenciar-alunos')">📋 Gerenciar Alunos</a></li>
+            <li><a href="CadCurso.html" onclick="mostrarSecao('adicionar-curso')">➕ Adicionar Curso</a></li>
+            <li><a href="coordenador_form.html" onclick="mostrarSecao('adicionar-coordenador')">👨🏻‍🏫 Adicionar Coordenador</a></li>
+            <li><a href="#" onclick="mostrarSecao('sair')"> ❌ Sair</a></li>
+        </ul>
+    </div>
+
+    <div class="container-gerenciar-alunos">
+        <h1>Gerenciamento de Alunos</h1>
+
+        <div class="filtros">
+            <label for="curso">Curso:</label>
+            <select id="curso">
+                <option value="">TADS</option> <!-- Vai ser de acordo com os cadastrados no banco-->
+                <option value="">Psicologia</option>
+                <option value="">Engenharia</option>
+            </select>
+
+            <label for="periodo">Período:</label>
+            <select id="periodo">
+                 <option value="">1°</option> <!--O número de períodos vai vir direto do banco de acordo com o que ele cadastrar no curso -->
+                <option value="">2°</option>
+                <option value="">3°</option>
+            </select>
+
+            <label for="deferido">Deferido:</label>
+            <select id="deferido">
+                <option value="todos">Todos</option>
+                <option value="sim">Sim</option>
+                <option value="não">Não</option>
+            </select>
+
+             <button class="button-filtrar" onclick="filtrarAlunos()">Filtrar</button> <!--Integrar com js -->
+             
+             <div class="pesquisa">
+                <input type="text" id="pesquisaNome" placeholder="Pesquisar nome...">
+                <button onclick="pesquisarNome()">
+                    🔍
+                </button>
+            </div>
+
+        </div>
+
+        <h2>Lista de Alunos</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Curso</th>
+                    <th>Período</th>
+                    <th>Deferido</th>
+                </tr>
+            </thead>
+            <tbody id="lista-alunos"></tbody>
+        </table>
+
+</body>
+</html>
