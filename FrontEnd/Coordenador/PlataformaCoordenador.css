@@ -1,0 +1,198 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    height: 100vh; /* Ocupa 100% da altura da tela */
+}
+
+
+.menu-lateral {
+    width: 210px;
+    background-color: #2c3e50;
+    color: white;
+    height: 100vh;
+    padding: 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+.menu-lateral h2 {
+    text-align: center;
+}
+
+.menu-lateral ul {
+    list-style: none;
+    padding: 0;
+}
+
+.menu-lateral ul li {
+    margin: 15px 0;
+}
+
+.menu-lateral ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.menu-lateral ul li a:hover {
+    background-color: #34495e;
+}
+
+.conteudo {
+    margin-left: 220px;
+    padding: 20px;
+    width: calc(100% - 220px);
+}
+
+.secao {
+    display: none;
+}
+
+.secao.ativa {
+    display: block;
+}
+
+.filtros {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;  
+    gap: 15px; 
+    
+}
+
+select, input, button {
+    margin: 5px;
+    padding: 8px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+th, td {
+    padding: 10px;
+}
+
+.novo-curso {
+    margin-top: 20px;
+}
+
+
+/* --------------------- CadCurso e CadCoordenador */
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.container {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px 0px #0000001a;
+    width: 300px;
+    margin-left: 220px; /* Evita que o menu lateral sobreponha */
+}
+
+
+label { /* distância entre um componente e outro*/
+    display: block;
+    margin-top: 2%;
+}
+
+button {
+    width: 100%;
+    margin-top: 15px;
+    padding: 3%;
+    background-color: #1b2d92;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #051396;
+}
+
+.erro-msg {
+    font-size: 14px;
+    color: red;
+    display: block;
+    margin-top: 5px;
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 95%;  /* Faz com que ocupe toda a largura do container */
+    height: 30px; /* Ajusta a altura dos campos */
+    padding: 10px; /* Adiciona um espaçamento interno para melhorar a aparência */
+    font-size: 16px; /* Aumenta o tamanho do texto dentro do campo */
+    border: 1px solid #ccc; /* Define uma borda suave */
+    border-radius: 4px; /* Deixa as bordas levemente arredondadas */
+    box-sizing: border-box; /* Evita que padding aumente o tamanho do campo */
+}
+
+/* -------------------- GerenciarAlunos */
+
+.container-gerenciar-alunos {
+    background: white;
+    padding: 5%;
+    border-radius: 8px;
+    box-shadow: 0px 0px 5px 0px #0000001a;
+    width: 65%;
+    margin-left: 220px; 
+    text-align: justify;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 0px;
+}
+
+.button-filtrar {
+    width: 15%;
+    margin-top: 15px;
+    padding: 1%;
+    background-color: #051396;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.pesquisa {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+    width: 50%;
+    height: 35px;
+}
+
+.pesquisa input {
+    border: none;
+    padding: 4px;
+    outline: none;
+}
+
+.pesquisa button {
+    border: none;
+    background: #ddd;
+    padding: 4px;
+    cursor: pointer;
+}
+
