@@ -1,44 +1,56 @@
 <?php
 session_start();
-require '../conexao.php';
+include '../conexao.php'; // Caminho correto para a conexão
 
-header("Content-Type: application/json");
+header('Content-Type: application/json');
 
+// Verifica se a conexão foi estabelecida
+if (!$conn) {
+    echo json_encode(['success' => false, 'message' => 'Erro ao conectar ao banco de dados.']);
+    exit;
+}
+
+// Captura os dados enviados pelo formulário
 $ra = $_POST['ra'] ?? '';
 $senha = $_POST['senha'] ?? '';
 
 if (empty($ra) || empty($senha)) {
-    echo json_encode(["success" => false, "message" => "RA e senha são obrigatórios"]);
-    exit();
+    echo json_encode(['success' => false, 'message' => 'RA e Senha são obrigatórios.']);
+    exit;
 }
 
-// Verifica primeiro se é um aluno
-$sqlAluno = "SELECT id, nome, senha FROM aluno WHERE ra = :ra";
-$stmt = $pdo->prepare($sqlAluno);
-$stmt->bindParam(':ra', $ra);
-$stmt->execute();
-$aluno = $stmt->fetch(PDO::FETCH_ASSOC);
+// Função para autenticar usuário
+function autenticarUsuario($conn, $ra, $senha, $tabela, $tipoUsuario, $redirect) {
+    $sql = "SELECT * FROM $tabela WHERE RA = ? LIMIT 1";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $ra);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-if ($aluno && password_verify($senha, $aluno['senha'])) {
-    $_SESSION['usuario'] = $aluno['nome'];
-    $_SESSION['tipo'] = "Aluno";
-    echo json_encode(["success" => true, "redirect" => "../Aluno/dashboard.html"]);
-    exit();
+    if ($result->num_rows > 0) {
+        $usuario = $result->fetch_assoc();
+
+        if (!empty($usuario['Senha']) && password_verify($senha, $usuario['Senha'])) {
+            $_SESSION['usuario_id'] = $usuario['Id'];
+            $_SESSION['usuario_nome'] = $usuario['Nome'];
+            $_SESSION['usuario_tipo'] = $tipoUsuario;
+
+            echo json_encode(['success' => true, 'message' => 'Login realizado com sucesso!', 'redirect' => $redirect]);
+            exit;
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Senha incorreta.']);
+            exit;
+        }
+    }
 }
 
-// Se não for aluno, verifica se é um coordenador
-$sqlCoordenador = "SELECT id, nome, senha FROM coordenador WHERE ra = :ra";
-$stmt = $pdo->prepare($sqlCoordenador);
-$stmt->bindParam(':ra', $ra);
-$stmt->execute();
-$coordenador = $stmt->fetch(PDO::FETCH_ASSOC);
+// Primeiro tenta autenticar como Coordenador
+autenticarUsuario($conn, $ra, $senha, 'Coordenador', 'coordenador', '../../FrontEnd/Coordenador/coordenador_form.html');
 
-if ($coordenador && password_verify($senha, $coordenador['senha'])) {
-    $_SESSION['usuario'] = $coordenador['nome'];
-    $_SESSION['tipo'] = "Coordenador";
-    echo json_encode(["success" => true, "redirect" => "../Coordenador/dashboard.html"]);
-    exit();
-}
+// Se não for Coordenador, tenta autenticar como Aluno
+autenticarUsuario($conn, $ra, $senha, 'Aluno', 'aluno', '../../FrontEnd/Aluno/aluno_form.html');
 
-echo json_encode(["success" => false, "message" => "RA ou senha inválidos"]);
+// Se não encontrar o usuário
+echo json_encode(['success' => false, 'message' => 'Usuário não encontrado.']);
+exit;
 ?>

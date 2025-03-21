@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 19, 2025 at 02:23 AM
+-- Generation Time: Mar 08, 2025 at 04:55 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -32,8 +32,17 @@ CREATE TABLE `aluno` (
   `Nome` varchar(255) NOT NULL,
   `RA` varchar(50) NOT NULL,
   `Curso` varchar(255) NOT NULL,
-  `Periodo` varchar(50) NOT NULL
+  `Periodo` varchar(50) NOT NULL,
+  `Senha` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `aluno`
+--
+
+INSERT INTO `aluno` (`Id`, `Nome`, `RA`, `Curso`, `Periodo`, `Senha`) VALUES
+(1, 'Gustavo', '0766231', 'Tads', '4° Semestre', '$2y$10$Xju1jLhWCAVc/s3xqT5uRO0DXpgpCN2vX9mjlkOQ8cooGUstkCLNW'),
+(2, 'Teste Aluno', '123456789', 'Teste', '5° Semestre', '$2y$10$xThXS6srB89ZLi/5XnOAO.pDlAlwicBphi6zfUSJ8vWYtcmylC2Fu');
 
 -- --------------------------------------------------------
 
@@ -90,8 +99,21 @@ CREATE TABLE `coordenador` (
   `Id` int(11) NOT NULL,
   `Nome` varchar(255) NOT NULL,
   `RA` varchar(50) NOT NULL,
-  `Curso` varchar(255) NOT NULL
+  `Curso` varchar(255) NOT NULL,
+  `Senha` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `coordenador`
+--
+
+INSERT INTO `coordenador` (`Id`, `Nome`, `RA`, `Curso`, `Senha`) VALUES
+(1, 'Gustavo', '0766231', 'Tads', ''),
+(2, 'Pedro IVO', '099987', 'teste', ''),
+(4, 'teste', '2323', 'teste', '$2y$10$QxyuaYZNQA093sI1LFPDbOpqR9NBMhjAaO0yhvb3MUiPbpUD0IgDy'),
+(5, 'Teste ', '9514960', 'Tads', '$2y$10$uTibiPwfm3W.N/S9pxvX/.tQA/OzGN9xISl7hxphMP89XD5ROD3cG'),
+(6, 'Teste ', '9514961', 'Tads', '$2y$10$yB/OZer7.7nxOZV3NiqxZORF4Bkh3dsFGUwqsa6wyzc9WpNvC4cOm'),
+(7, 'Teste', '123123', 'Teste', '$2y$10$9Tl7aGQDQ0UMxwI6zHIt9OtX9Ctlls./tHdZ7x8KLngIB7vQQ4rjS');
 
 --
 -- Indexes for dumped tables
@@ -141,7 +163,7 @@ ALTER TABLE `coordenador`
 -- AUTO_INCREMENT for table `aluno`
 --
 ALTER TABLE `aluno`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `atividadecomplementar`
@@ -165,7 +187,7 @@ ALTER TABLE `categoriaatividade`
 -- AUTO_INCREMENT for table `coordenador`
 --
 ALTER TABLE `coordenador`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables
