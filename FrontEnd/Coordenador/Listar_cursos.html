@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <script defer src="Menu.js"></script> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listagem de Cursos</title>
+    <link rel="stylesheet" href="PlataformaCoordenador.css">
+    <link rel="stylesheet" href="Listar_coordenadores-cursos.css">
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarCursos();
+        });
+
+        function carregarCursos() {
+            fetch('/tcc-horas-complementares/BackEnd/Coordenador/Listar_cursos.php')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro ao carregar os cursos.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const container = document.getElementById('lista-cursos');
+                    container.innerHTML = '';
+
+                    if (!Array.isArray(data) || data.length === 0) {
+                        container.innerHTML = '<p>Nenhum curso cadastrado.</p>';
+                        return;
+                    }
+
+                    const tabela = document.createElement('table');
+                    const thead = `
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome do Curso</th>
+                                <th>Períodos</th>
+                                <th>Coordenador</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>`;
+                    
+                    const tbody = `
+                        <tbody>
+                            ${data.map(curso => `
+                                <tr>
+                                    <td>${curso.Id_curso}</td>
+                                    <td>${curso.Nome_curso}</td>
+                                    <td>${curso.Quant_periodos}</td>
+                                    <td>${curso.Coordenador}</td>
+                                    <td>
+                                    <div class="btn-group">
+                                        <button onclick="editarCurso(${curso.Id_curso})">✏️ Editar</button>
+                                        <button onclick="excluirCurso(${curso.Id_curso})">🗑️ Excluir</button>
+                                    </div>
+                                </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>`;
+
+                    tabela.innerHTML = thead + tbody;
+                    container.appendChild(tabela);
+                })
+                .catch(error => {
+                    document.getElementById('lista-cursos').innerHTML = `<p style="color:red;">Erro ao carregar cursos: ${error.message}</p>`;
+                });
+        }
+
+        function editarCurso(id) {
+            window.location.href = 'Editar_curso.html?id=' + id;
+        }
+
+        function excluirCurso(id) {
+            if (confirm("Tem certeza que deseja excluir este curso?")) {
+                fetch(`../../BackEnd/Coordenador/Excluir_curso.php?id=${id}`, { method: 'DELETE' })
+                    .then(response => response.text())
+                    .then(msg => {
+                        alert(msg);
+                        carregarCursos();
+                    })
+                    .catch(err => {
+                        alert("Erro ao excluir: " + err.message);
+                    });
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <div id="menu-container"></div> 
+    
+    <div class="container-cursos">
+        <h2>Cursos Cadastrados</h2>
+        <button class="add-button" onclick="window.location.href='Cad_curso.html'">➕ Cadastrar Novo Curso</button>
+
+        <div id="lista-cursos"></div>
+        
+    </div>
+
+</body>
+</html>

@@ -1,4 +1,5 @@
 <?php
+
 include('../conexao.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -6,6 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $ra = $_POST['ra'];
     $curso = $_POST['curso'];
     $senha = $_POST['senha'];
+    $Data_cadastro = date('Y-m-d'); // agora pega a data atual
 
     // Verifica se o RA já está cadastrado
     $sql_verificar = "SELECT RA FROM Coordenador WHERE RA = ?";
@@ -24,10 +26,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $senha_hash = password_hash($senha, PASSWORD_BCRYPT);
 
     // Inserindo os dados no banco
-    $sql = "INSERT INTO Coordenador (Nome, RA, Curso, Senha) VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO Coordenador (Nome, RA, Curso, Senha, Data_cadastro) VALUES (?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "ssss", $nome, $ra, $curso, $senha_hash);
-    
+    mysqli_stmt_bind_param($stmt, "sssss", $nome, $ra, $curso, $senha_hash, $Data_cadastro);
+
     if (mysqli_stmt_execute($stmt)) {
         header("Location: ../../FrontEnd/Coordenador/sucesso.html");
         exit();

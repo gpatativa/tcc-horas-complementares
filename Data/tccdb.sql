@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 19, 2025 at 02:23 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Tempo de geração: 06/04/2025 às 22:19
+-- Versão do servidor: 10.4.32-MariaDB
+-- Versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `tccdb`
+-- Banco de dados: `tccdb`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `aluno`
+-- Estrutura para tabela `aluno`
 --
 
 CREATE TABLE `aluno` (
@@ -38,7 +38,7 @@ CREATE TABLE `aluno` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `atividadecomplementar`
+-- Estrutura para tabela `atividadecomplementar`
 --
 
 CREATE TABLE `atividadecomplementar` (
@@ -56,7 +56,7 @@ CREATE TABLE `atividadecomplementar` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `avaliacaoatividade`
+-- Estrutura para tabela `avaliacaoatividade`
 --
 
 CREATE TABLE `avaliacaoatividade` (
@@ -71,7 +71,7 @@ CREATE TABLE `avaliacaoatividade` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `categoriaatividade`
+-- Estrutura para tabela `categoriaatividade`
 --
 
 CREATE TABLE `categoriaatividade` (
@@ -83,29 +83,61 @@ CREATE TABLE `categoriaatividade` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `coordenador`
+-- Estrutura para tabela `coordenador`
 --
 
 CREATE TABLE `coordenador` (
   `Id` int(11) NOT NULL,
   `Nome` varchar(255) NOT NULL,
   `RA` varchar(50) NOT NULL,
-  `Curso` varchar(255) NOT NULL
+  `Curso` varchar(255) NOT NULL,
+  `Data_cadastro` date NOT NULL,
+  `Senha` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Indexes for dumped tables
+-- Despejando dados para a tabela `coordenador`
+--
+
+INSERT INTO `coordenador` (`Id`, `Nome`, `RA`, `Curso`, `Data_cadastro`, `Senha`) VALUES
+(2, 'Pedro', '87654321', 'TADS', '2025-04-06', '$2y$10$Ec5y/7/zaF/RDdzXvCOV5O6vlf7E7wn0my91LdQ82hNy0Uqd6EBV2'),
+(3, 'Raiane', '78945612', 'Eventos', '2025-04-06', '$2y$10$8uQ5Ylbl7/nFK0QMl9IY9e6RODSsOZQS56N.OTK6/cBlZI1ZcCQRC');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `cursos`
+--
+
+CREATE TABLE `cursos` (
+  `Id_curso` int(11) NOT NULL,
+  `Nome_curso` text NOT NULL,
+  `Quant_periodos` int(11) NOT NULL,
+  `Coordenador` text NOT NULL,
+  `Data_cadastro` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `cursos`
+--
+
+INSERT INTO `cursos` (`Id_curso`, `Nome_curso`, `Quant_periodos`, `Coordenador`, `Data_cadastro`) VALUES
+(2, 'TADS', 6, 'Pedro', '2025-04-06'),
+(3, 'Pedagogia', 8, 'Taciane', '2025-04-06');
+
+--
+-- Índices para tabelas despejadas
 --
 
 --
--- Indexes for table `aluno`
+-- Índices de tabela `aluno`
 --
 ALTER TABLE `aluno`
   ADD PRIMARY KEY (`Id`),
   ADD UNIQUE KEY `RA` (`RA`);
 
 --
--- Indexes for table `atividadecomplementar`
+-- Índices de tabela `atividadecomplementar`
 --
 ALTER TABLE `atividadecomplementar`
   ADD PRIMARY KEY (`Id`),
@@ -113,7 +145,7 @@ ALTER TABLE `atividadecomplementar`
   ADD KEY `CategoriaAtividadeId` (`CategoriaAtividadeId`);
 
 --
--- Indexes for table `avaliacaoatividade`
+-- Índices de tabela `avaliacaoatividade`
 --
 ALTER TABLE `avaliacaoatividade`
   ADD PRIMARY KEY (`Id`),
@@ -121,65 +153,77 @@ ALTER TABLE `avaliacaoatividade`
   ADD KEY `CoordenadorId` (`CoordenadorId`);
 
 --
--- Indexes for table `categoriaatividade`
+-- Índices de tabela `categoriaatividade`
 --
 ALTER TABLE `categoriaatividade`
   ADD PRIMARY KEY (`Id`);
 
 --
--- Indexes for table `coordenador`
+-- Índices de tabela `coordenador`
 --
 ALTER TABLE `coordenador`
   ADD PRIMARY KEY (`Id`),
   ADD UNIQUE KEY `RA` (`RA`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- Índices de tabela `cursos`
+--
+ALTER TABLE `cursos`
+  ADD PRIMARY KEY (`Id_curso`);
+
+--
+-- AUTO_INCREMENT para tabelas despejadas
 --
 
 --
--- AUTO_INCREMENT for table `aluno`
+-- AUTO_INCREMENT de tabela `aluno`
 --
 ALTER TABLE `aluno`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `atividadecomplementar`
+-- AUTO_INCREMENT de tabela `atividadecomplementar`
 --
 ALTER TABLE `atividadecomplementar`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `avaliacaoatividade`
+-- AUTO_INCREMENT de tabela `avaliacaoatividade`
 --
 ALTER TABLE `avaliacaoatividade`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `categoriaatividade`
+-- AUTO_INCREMENT de tabela `categoriaatividade`
 --
 ALTER TABLE `categoriaatividade`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `coordenador`
+-- AUTO_INCREMENT de tabela `coordenador`
 --
 ALTER TABLE `coordenador`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- Constraints for dumped tables
+-- AUTO_INCREMENT de tabela `cursos`
+--
+ALTER TABLE `cursos`
+  MODIFY `Id_curso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- Restrições para tabelas despejadas
 --
 
 --
--- Constraints for table `atividadecomplementar`
+-- Restrições para tabelas `atividadecomplementar`
 --
 ALTER TABLE `atividadecomplementar`
   ADD CONSTRAINT `atividadecomplementar_ibfk_1` FOREIGN KEY (`AlunoId`) REFERENCES `aluno` (`Id`) ON DELETE CASCADE,
   ADD CONSTRAINT `atividadecomplementar_ibfk_2` FOREIGN KEY (`CategoriaAtividadeId`) REFERENCES `categoriaatividade` (`Id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `avaliacaoatividade`
+-- Restrições para tabelas `avaliacaoatividade`
 --
 ALTER TABLE `avaliacaoatividade`
   ADD CONSTRAINT `avaliacaoatividade_ibfk_1` FOREIGN KEY (`AtividadeComplementarId`) REFERENCES `atividadecomplementar` (`Id`) ON DELETE CASCADE,

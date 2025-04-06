@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Curso</title>
+    <link rel="stylesheet" href="PlataformaCoordenador.css">
+    <script defer src="Menu.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get("id");
+
+            if (!id) {
+                alert("ID do curso não informado!");
+                window.location.href = "Listar_cursos.html";
+                return;
+            }
+
+            // Buscar dados do curso
+            fetch(`../../BackEnd/Coordenador/Buscar_curso.php?id=${id}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.erro) {
+                        alert(data.erro);
+                        return;
+                    }
+
+                    document.getElementById("Id_curso").value = data.Id_curso;
+                    document.getElementById("Nome_curso").value = data.Nome_curso;
+                    document.getElementById("Quant_periodos").value = data.Quant_periodos;
+                    document.getElementById("Coordenador").value = data.Coordenador;
+                })
+                .catch(err => {
+                    alert("Erro ao carregar curso: " + err.message);
+                });
+        });
+
+        function salvarAlteracoes(event) {
+            event.preventDefault();
+
+            const form = document.getElementById("form-curso");
+            const formData = new FormData(form);
+
+            fetch("../../BackEnd/Coordenador/Atualizar_curso.php", {
+                method: "POST",
+                body: formData
+            })
+            .then(res => res.text())
+            .then(msg => {
+                alert(msg);
+                window.location.href = "Listar_cursos.html";
+            })
+            .catch(err => {
+                alert("Erro ao atualizar curso: " + err.message);
+            });
+        }
+    </script>
+</head>
+<body>
+    <div id="menu-container"></div>
+
+    <div class="container">
+        <h2>Editar Curso</h2>
+        <form id="form-curso" onsubmit="salvarAlteracoes(event)">
+            <input type="hidden" id="Id_curso" name="Id_curso">
+
+            <label for="Nome_curso">Nome:</label>
+            <input type="text" id="Nome_curso" name="Nome_curso" required>
+
+            <label for="Quant_periodos">Quantidade de períodos:</label>
+            <input type="number" id="Quant_periodos" name="Quant_periodos" required>
+
+            <label for="Coordenador">Nome do Coordenador:</label>
+            <input type="text" id="Coordenador" name="Coordenador" required>
+
+            <button type="submit">Salvar Alterações</button>
+        </form>
+    </div>
+</body>
+</html>

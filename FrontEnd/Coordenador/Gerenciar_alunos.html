@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <script defer src="Menu.js"></script> 
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciamento de Alunos</title>
+    <link rel="stylesheet" href="PlataformaCoordenador.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('../../BackEnd/Coordenador/GerenciarAlunos.php')
+                .then(response => response.json())
+                .then(data => {
+                    console.log("DATA RECEBIDA:", data); // Para depuração
+                    preencherSelect('curso', data.cursos);
+                    preencherSelect('periodo', data.periodos.map(p => `${p}º`));
+                    preencherSelect('Coordenador', data.coordenadores);
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar os dados:', error);
+                });
+
+            function preencherSelect(id, valores) {
+                const select = document.getElementById(id);
+                if (!select) return;
+
+                select.innerHTML = '<option value="">Todos</option>';
+                valores.forEach(valor => {
+                    const option = document.createElement('option');
+                    option.value = valor;
+                    option.textContent = valor;
+                    select.appendChild(option);
+                });
+            }
+        });
+    </script>
+</head>
+<body>
+
+    <div id="menu-container"></div>
+
+<div class="container-gerenciar-alunos">
+    <h1>Gerenciamento de Alunos</h1>
+
+    <div class="filtros">
+        <label for="curso">Curso:</label>
+        <select id="curso"></select>
+
+        <label for="periodo">Período:</label>
+        <select id="periodo"></select>
+
+        <label for="Coordenador">Coordenador:</label>
+        <select id="Coordenador"></select>
+
+        <label for="deferido">Deferido:</label>
+        <select id="deferido">
+            <option value="todos">Todos</option>
+            <option value="sim">Sim</option>
+            <option value="não">Não</option>
+        </select>
+
+        <button class="button-filtrar" onclick="filtrarAlunos()">Filtrar</button>
+
+        <div class="pesquisa">
+            <input type="text" id="pesquisaNome" placeholder="Pesquisar nome...">
+            <button onclick="pesquisarNome()">🔍</button>
+        </div>
+    </div>
+
+    <h2>Lista de Alunos</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Curso</th>
+                <th>Período</th>
+                <th>Deferido</th>
+            </tr>
+        </thead>
+        <tbody id="lista-alunos">
+            <!-- Conteúdo dinâmico futuro -->
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

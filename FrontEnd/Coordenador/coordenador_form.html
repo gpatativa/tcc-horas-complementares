@@ -6,20 +6,11 @@
     <title>Cadastro de Coordenador</title>
     <link rel="stylesheet" href="PlataformaCoordenador.css">
     <script defer src="coordenador_form.js"></script> <!-- Adicionando JS -->
+    <script defer src="Menu.js"></script> 
 </head>
 <body>
 
-    <div class="menu-lateral">
-        <h2>Menu</h2>
-        <ul>
-            <li><a href="HomeCoordenador.html" onclick="mostrarSecao('home')">🏠 Home</a></li>
-            <li><a href="#" onclick="mostrarSecao('perfil')">👤 Perfil</a></li>
-            <li><a href="GerenciarAlunos.html" onclick="mostrarSecao('gerenciar-alunos')">📋 Gerenciar Alunos</a></li>
-            <li><a href="CadCurso.html" onclick="mostrarSecao('adicionar-curso')">➕ Adicionar Curso</a></li>
-            <li><a href="coordenador_form.html" onclick="mostrarSecao('adicionar-coordenador')">👨🏻‍🏫 Adicionar Coordenador</a></li>
-            <li><a href="#" onclick="mostrarSecao('sair')">❌ Sair</a></li>
-        </ul>
-    </div>
+    <div id="menu-container"></div>
 
     <div class="container">
         <h2>Cadastro de Coordenador</h2>
