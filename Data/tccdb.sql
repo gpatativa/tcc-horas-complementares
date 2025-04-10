@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 06/04/2025 às 22:19
+-- Tempo de geração: 10/04/2025 às 14:06
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -91,17 +91,15 @@ CREATE TABLE `coordenador` (
   `Nome` varchar(255) NOT NULL,
   `RA` varchar(50) NOT NULL,
   `Curso` varchar(255) NOT NULL,
-  `Data_cadastro` date NOT NULL,
-  `Senha` varchar(255) DEFAULT NULL
+  `Senha` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `coordenador`
 --
 
-INSERT INTO `coordenador` (`Id`, `Nome`, `RA`, `Curso`, `Data_cadastro`, `Senha`) VALUES
-(2, 'Pedro', '87654321', 'TADS', '2025-04-06', '$2y$10$Ec5y/7/zaF/RDdzXvCOV5O6vlf7E7wn0my91LdQ82hNy0Uqd6EBV2'),
-(3, 'Raiane', '78945612', 'Eventos', '2025-04-06', '$2y$10$8uQ5Ylbl7/nFK0QMl9IY9e6RODSsOZQS56N.OTK6/cBlZI1ZcCQRC');
+INSERT INTO `coordenador` (`Id`, `Nome`, `RA`, `Curso`, `Senha`) VALUES
+(7, 'teste', '12345678', 'teste', '$2y$10$Eot.4qnaD/3ib5QK3CFmKufRRa.Bdv4.1Aa/SUTvwLv9XKfA/4voO');
 
 -- --------------------------------------------------------
 
@@ -203,7 +201,7 @@ ALTER TABLE `categoriaatividade`
 -- AUTO_INCREMENT de tabela `coordenador`
 --
 ALTER TABLE `coordenador`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `cursos`
