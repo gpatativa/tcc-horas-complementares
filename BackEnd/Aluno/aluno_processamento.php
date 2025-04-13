@@ -4,12 +4,13 @@ include('../conexao.php'); // Verifique se esse caminho está correto!
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome = trim($_POST['nome'] ?? '');
     $ra = trim($_POST['ra'] ?? '');
+    $email = trim($_POST['email'] ?? '');
     $curso = trim($_POST['curso'] ?? '');
     $periodo = trim($_POST['periodo'] ?? '');
     $senha = trim($_POST['senha'] ?? '');
 
     // Verifica se algum campo está vazio
-    if (empty($nome) || empty($ra) || empty($curso) || empty($periodo) || empty($senha)) {
+    if (empty($nome) || empty($ra) || empty($email) || empty($curso) || empty($periodo) || empty($senha)) {
         echo "<script>alert('Erro: Todos os campos são obrigatórios!'); window.history.back();</script>";
         exit();
     }
@@ -35,11 +36,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Gera um hash seguro da senha
     $senha_hash = password_hash($senha, PASSWORD_BCRYPT);
 
-    // Insere os dados no banco
-    $sql = "INSERT INTO Aluno (Nome, RA, Curso, Periodo, Senha) VALUES (?, ?, ?, ?, ?)";
+    // Insere os dados no banco (corrigido: 6 campos -> 6 variáveis)
+    $sql = "INSERT INTO Aluno (Nome, RA, email, Curso, Periodo, Senha) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "sssss", $nome, $ra, $curso, $periodo, $senha_hash);
-    
+    mysqli_stmt_bind_param($stmt, "ssssss", $nome, $ra, $email, $curso, $periodo, $senha_hash);
+
     if (mysqli_stmt_execute($stmt)) {
         echo "<script>alert('Cadastro realizado com sucesso!'); window.location.href = '../../FrontEnd/Coordenador/sucesso.html';</script>";
         exit();
