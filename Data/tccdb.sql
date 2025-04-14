@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 10/04/2025 às 16:03
+-- Tempo de geração: 14/04/2025 às 04:55
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -55,12 +55,33 @@ CREATE TABLE `atividadecomplementar` (
   `AlunoId` int(11) NOT NULL,
   `CategoriaAtividadeId` int(11) NOT NULL,
   `Descricao` text NOT NULL,
+  `Resumo` text NOT NULL,
   `Data` date NOT NULL,
   `CargaHoraria` int(11) NOT NULL,
   `ArquivoComprovante` varchar(255) NOT NULL,
   `Status` enum('Pendente','Aprovado','Rejeitado') DEFAULT 'Pendente',
   `ObservacaoCoordenador` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `atividade_categoria`
+--
+
+CREATE TABLE `atividade_categoria` (
+  `Id` int(11) NOT NULL,
+  `CategoriaId` int(11) NOT NULL,
+  `Descricao` varchar(255) NOT NULL,
+  `CargaHorariaMaxima` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `atividade_categoria`
+--
+
+INSERT INTO `atividade_categoria` (`Id`, `CategoriaId`, `Descricao`, `CargaHorariaMaxima`) VALUES
+(1, 1, 'teste', 10);
 
 -- --------------------------------------------------------
 
@@ -80,11 +101,30 @@ CREATE TABLE `avaliacaoatividade` (
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `categoria`
+--
+
+CREATE TABLE `categoria` (
+  `Id` int(11) NOT NULL,
+  `Tipo` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `categoria`
+--
+
+INSERT INTO `categoria` (`Id`, `Tipo`) VALUES
+(1, 'Extensão');
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `categoriaatividade`
 --
 
 CREATE TABLE `categoriaatividade` (
   `Id` int(11) NOT NULL,
+  `Tipo` text NOT NULL,
   `Descricao` varchar(255) NOT NULL,
   `CargaHorariaMaxima` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -124,7 +164,7 @@ INSERT INTO `coordenador` (`Id`, `Nome`, `RA`, `Curso`, `Senha`) VALUES
 CREATE TABLE `cursos` (
   `Id_curso` int(11) NOT NULL,
   `Nome_curso` text NOT NULL,
-  `Quant_periodos` int(11) NOT NULL,
+  `Ano_inicio` int(11) NOT NULL,
   `Coordenador` text NOT NULL,
   `Data_cadastro` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -133,7 +173,7 @@ CREATE TABLE `cursos` (
 -- Despejando dados para a tabela `cursos`
 --
 
-INSERT INTO `cursos` (`Id_curso`, `Nome_curso`, `Quant_periodos`, `Coordenador`, `Data_cadastro`) VALUES
+INSERT INTO `cursos` (`Id_curso`, `Nome_curso`, `Ano_inicio`, `Coordenador`, `Data_cadastro`) VALUES
 (2, 'TADS', 6, 'Pedro', '2025-04-06'),
 (3, 'Pedagogia', 8, 'Taciane', '2025-04-06');
 
@@ -157,12 +197,25 @@ ALTER TABLE `atividadecomplementar`
   ADD KEY `CategoriaAtividadeId` (`CategoriaAtividadeId`);
 
 --
+-- Índices de tabela `atividade_categoria`
+--
+ALTER TABLE `atividade_categoria`
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `CategoriaId` (`CategoriaId`);
+
+--
 -- Índices de tabela `avaliacaoatividade`
 --
 ALTER TABLE `avaliacaoatividade`
   ADD PRIMARY KEY (`Id`),
   ADD UNIQUE KEY `AtividadeComplementarId` (`AtividadeComplementarId`),
   ADD KEY `CoordenadorId` (`CoordenadorId`);
+
+--
+-- Índices de tabela `categoria`
+--
+ALTER TABLE `categoria`
+  ADD PRIMARY KEY (`Id`);
 
 --
 -- Índices de tabela `categoriaatividade`
@@ -200,16 +253,28 @@ ALTER TABLE `atividadecomplementar`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de tabela `atividade_categoria`
+--
+ALTER TABLE `atividade_categoria`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT de tabela `avaliacaoatividade`
 --
 ALTER TABLE `avaliacaoatividade`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de tabela `categoria`
+--
+ALTER TABLE `categoria`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de tabela `categoriaatividade`
 --
 ALTER TABLE `categoriaatividade`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `coordenador`
@@ -233,6 +298,12 @@ ALTER TABLE `cursos`
 ALTER TABLE `atividadecomplementar`
   ADD CONSTRAINT `atividadecomplementar_ibfk_1` FOREIGN KEY (`AlunoId`) REFERENCES `aluno` (`Id`) ON DELETE CASCADE,
   ADD CONSTRAINT `atividadecomplementar_ibfk_2` FOREIGN KEY (`CategoriaAtividadeId`) REFERENCES `categoriaatividade` (`Id`) ON DELETE CASCADE;
+
+--
+-- Restrições para tabelas `atividade_categoria`
+--
+ALTER TABLE `atividade_categoria`
+  ADD CONSTRAINT `atividade_categoria_ibfk_1` FOREIGN KEY (`CategoriaId`) REFERENCES `categoria` (`Id`);
 
 --
 -- Restrições para tabelas `avaliacaoatividade`
