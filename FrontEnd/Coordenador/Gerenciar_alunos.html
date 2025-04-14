@@ -12,7 +12,7 @@
                 .then(data => {
                     console.log("DATA RECEBIDA:", data); // Para depuração
                     preencherSelect('curso', data.cursos);
-                    preencherSelect('periodo', data.periodos.map(p => `${p}º`));
+                    preencherSelect('anoInicio', data.Ano_inicio.map(p => `${p}º`));
                     preencherSelect('Coordenador', data.coordenadores);
                 })
                 .catch(error => {
@@ -45,8 +45,8 @@
         <label for="curso">Curso:</label>
         <select id="curso"></select>
 
-        <label for="periodo">Período:</label>
-        <select id="periodo"></select>
+        <label for="anoInicio">Ano de Início:</label>
+        <select id="anoInicio"></select>
 
         <label for="Coordenador">Coordenador:</label>
         <select id="Coordenador"></select>
@@ -72,7 +72,7 @@
             <tr>
                 <th>Nome</th>
                 <th>Curso</th>
-                <th>Período</th>
+                <th>Ano de inínio</th>
                 <th>Deferido</th>
             </tr>
         </thead>
@@ -81,6 +81,6 @@
         </tbody>
     </table>
 </div>
-
+<script src="Menu.js"></script>
 </body>
 </html>

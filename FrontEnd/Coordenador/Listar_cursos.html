@@ -36,7 +36,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Nome do Curso</th>
-                                <th>Períodos</th>
+                                <th>Ano de Início</th>
                                 <th>Coordenador</th>
                                 <th>Ações</th>
                             </tr>
@@ -48,14 +48,14 @@
                                 <tr>
                                     <td>${curso.Id_curso}</td>
                                     <td>${curso.Nome_curso}</td>
-                                    <td>${curso.Quant_periodos}</td>
+                                    <td>${curso.Ano_inicio}</td>
                                     <td>${curso.Coordenador}</td>
                                     <td>
-                                    <div class="btn-group">
-                                        <button onclick="editarCurso(${curso.Id_curso})">✏️ Editar</button>
-                                        <button onclick="excluirCurso(${curso.Id_curso})">🗑️ Excluir</button>
-                                    </div>
-                                </td>
+                                        <div class="btn-group">
+                                            <button onclick="editarCurso(${curso.Id_curso})">✏️ Editar</button>
+                                            <button onclick="excluirCurso(${curso.Id_curso})">🗑️ Excluir</button>
+                                        </div>
+                                    </td>
                                 </tr>
                             `).join('')}
                         </tbody>`;
@@ -96,8 +96,8 @@
         <button class="add-button" onclick="window.location.href='Cad_curso.html'">➕ Cadastrar Novo Curso</button>
 
         <div id="lista-cursos"></div>
-        
     </div>
-
+    
+    <script src="Menu.js"></script>
 </body>
 </html>

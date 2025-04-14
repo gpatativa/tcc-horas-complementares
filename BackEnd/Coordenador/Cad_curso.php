@@ -21,7 +21,7 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param("siss", $Nome_curso, $Quant_periodos, $Coordenador, $Data_cadastro);
 
 if ($stmt->execute()) {
-    echo "<script>alert('Curso cadastrado com sucesso!'); window.location.href='../../FrontEnd/Coordenador/Cad_Curso.html';</script>";
+    echo "<script>alert('Curso cadastrado com sucesso!'); window.location.href='../../FrontEnd/Coordenador/Cad_curso.html';</script>";
 } else {
     echo "Erro ao cadastrar: " . $conn->error;
 }

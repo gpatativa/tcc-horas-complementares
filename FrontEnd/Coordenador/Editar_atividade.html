@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Curso</title>
+    <title>Editar Atividade</title>
     <link rel="stylesheet" href="PlataformaCoordenador.css">
     <script defer src="Menu.js"></script>
     <script>
@@ -12,13 +12,13 @@
             const id = params.get("id");
 
             if (!id) {
-                alert("ID do curso não informado!");
-                window.location.href = "Listar_cursos.html";
+                alert("ID da atividade não informada!");
+                window.location.href = "Listar_atividades.html";
                 return;
             }
 
-            // Buscar dados do curso
-            fetch(`../../BackEnd/Coordenador/Buscar_curso.php?id=${id}`)
+            // Buscar dados da atividade
+            fetch(`../../BackEnd/Coordenador/Buscar_atividade.php?id=${id}`)
                 .then(res => res.json())
                 .then(data => {
                     if (data.erro) {
@@ -26,13 +26,13 @@
                         return;
                     }
 
-                    document.getElementById("Id_curso").value = data.Id_curso;
-                    document.getElementById("Nome_curso").value = data.Nome_curso;
-                    document.getElementById("Ano_inicio").value = data.Ano_inicio;
-                    document.getElementById("Coordenador").value = data.Coordenador;
+                    document.getElementById("Id").value = data.Id;
+                    document.getElementById("Tipo").value = data.Tipo;
+                    document.getElementById("Descricao").value = data.Descricao;
+                    document.getElementById("CargaHorariaMaxima").value = data.CargaHorariaMaxima;
                 })
                 .catch(err => {
-                    alert("Erro ao carregar curso: " + err.message);
+                    alert("Erro ao carregar atividade: " + err.message);
                 });
         });
 
@@ -42,17 +42,17 @@
             const form = document.getElementById("form-curso");
             const formData = new FormData(form);
 
-            fetch("../../BackEnd/Coordenador/Atualizar_curso.php", {
+            fetch("../../BackEnd/Coordenador/Atualizar_atividade.php", {
                 method: "POST",
                 body: formData
             })
             .then(res => res.text())
             .then(msg => {
                 alert(msg);
-                window.location.href = "Listar_cursos.html";
+                window.location.href = "Listar_atividades.html";
             })
             .catch(err => {
-                alert("Erro ao atualizar curso: " + err.message);
+                alert("Erro ao atualizar atividade: " + err.message);
             });
         }
     </script>
@@ -61,18 +61,18 @@
     <div id="menu-container"></div>
 
     <div class="container">
-        <h2>Editar Curso</h2>
+        <h2>Editar Atividade</h2>
         <form id="form-curso" onsubmit="salvarAlteracoes(event)">
-            <input type="hidden" id="Id_curso" name="Id_curso">
+            <input type="hidden" id="Id" name="Id">
 
-            <label for="Nome_curso">Nome:</label>
-            <input type="text" id="Nome_curso" name="Nome_curso" required>
+            <label for="Tipo">Categoria:</label>
+            <input type="text" id="Tipo" name="Tipo" required>
 
-            <label for="Ano_inicio">Ano de Início:</label>
-            <input type="number" id="Ano_inicio" name="Ano_inicio" required>
+            <label for="Descricao">Descrição:</label>
+            <input type="text" id="Descricao" name="Descricao" required>
 
-            <label for="Coordenador">Nome do Coordenador:</label>
-            <input type="text" id="Coordenador" name="Coordenador" required>
+            <label for="CargaHorariaMaxima">Carga Horária Máxima:</label>
+            <input type="number" id="CargaHorariaMaxima" name="CargaHorariaMaxima" required>
 
             <button type="submit">Salvar Alterações</button>
         </form>
