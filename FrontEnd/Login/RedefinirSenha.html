@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Redefinir Senha</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="TelaDeLogin.css">
+</head>
+<body>
+  <div class="container">
+    <img class="logo" src="einstein-1.png" alt="Logo da empresa">
+    <div class="login-box">
+      <form id="form-redefinir">
+        <h2>Redefinir Senha</h2>
+
+        <div class="input-group">
+          <input type="text" id="ra" placeholder="RA" required>
+        </div>
+
+        <div class="input-group">
+          <input type="email" id="email" placeholder="E-mail" required>
+        </div>
+
+        <div class="input-group">
+          <input type="password" id="senha" placeholder="Nova Senha" required>
+        </div>
+
+        <div class="input-group">
+          <input type="password" id="confirmarSenha" placeholder="Confirmar Senha" required>
+        </div>
+
+        <button type="submit" class="btn">Redefinir</button>
+        <p id="status"></p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("form-redefinir").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const ra = document.getElementById("ra").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const senha = document.getElementById("senha").value;
+      const confirmarSenha = document.getElementById("confirmarSenha").value;
+      const status = document.getElementById("status");
+
+      if (senha.length < 6) {
+        status.textContent = "A senha deve ter pelo menos 6 caracteres.";
+        status.style.color = "red";
+        return;
+      }
+
+      if (senha !== confirmarSenha) {
+        status.textContent = "As senhas não coincidem.";
+        status.style.color = "red";
+        return;
+      }
+
+      try {
+        const response = await fetch("../../BackEnd/Login/RedefinirSenha.php", {
+          method: "POST",
+          body: new URLSearchParams({
+            ra,
+            email,
+            senha
+          })
+        });
+
+        const data = await response.json();
+        status.textContent = data.message;
+        status.style.color = data.success ? "green" : "red";
+
+        if (data.success) {
+          setTimeout(() => window.location.href = "TelaDeLogin.html", 2000);
+        }
+      } catch {
+        status.textContent = "Erro ao redefinir senha.";
+        status.style.color = "red";
+      }
+    });
+  </script>
+</body>
+</html>
