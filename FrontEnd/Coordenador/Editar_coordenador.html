@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Editar Coordenador</title>
+    <link rel="stylesheet" href="PlataformaCoordenador.css" />
+    <link rel="stylesheet" href="Listar_coordenadores-cursos.css" />
+    <script defer src="Menu.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get("id");
+
+            if (!id) {
+                alert("ID do coordenador não informado.");
+                window.location.href = "Listar_coordenadores.html";
+                return;
+            }
+
+            // Buscar dados do coordenador
+            fetch(`../../BackEnd/Coordenador/Buscar_coordenador.php?id=${id}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.erro) {
+                        alert(data.erro);
+                        return;
+                    }
+
+                    document.getElementById("Id").value = data.Id;
+                    document.getElementById("Nome").value = data.Nome;
+                    document.getElementById("RA").value = data.RA;
+                    document.getElementById("Curso").value = data.Curso;
+                })
+                .catch(err => {
+                    alert("Erro ao carregar coordenador: " + err.message);
+                });
+        });
+
+        function salvarAlteracoes(event) {
+            event.preventDefault();
+
+            const formData = new FormData(document.getElementById("form-coordenador"));
+
+            fetch("../../BackEnd/Coordenador/Atualizar_coordenador.php", {
+                method: "POST",
+                body: formData
+            })
+                .then(res => res.text())
+                .then(msg => {
+                    alert(msg);
+                    window.location.href = "Listar_coordenadores.html";
+                })
+                .catch(err => {
+                    alert("Erro ao atualizar: " + err.message);
+                });
+        }
+    </script>
+</head>
+<body>
+    <div id="menu-container"></div>
+
+    <div class="container">
+        <h2>Editar Coordenador</h2>
+        <form id="form-coordenador" onsubmit="salvarAlteracoes(event)">
+            <input type="hidden" id="Id" name="Id" />
+
+            <label for="Nome">Nome:</label>
+            <input type="text" id="Nome" name="Nome" required />
+
+            <label for="RA">RA:</label>
+            <input type="text" id="RA" name="RA" required />
+
+            <label for="Curso">Curso:</label>
+            <input type="text" id="Curso" name="Curso" required />
+
+            <button type="submit">Salvar Alterações</button>
+        </form>
+    </div>
+    <script src="Menu.js"></script>
+</body>
+</html>

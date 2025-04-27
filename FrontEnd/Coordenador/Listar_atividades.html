@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listagem de Atividades</title>
+    <link rel="stylesheet" href="PlataformaCoordenador.css">
+    <link rel="stylesheet" href="Listar_coordenadores-cursos.css">
+    <script defer src="Menu.js"></script> 
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarAtividades();
+        });
+
+        function carregarAtividades() {
+            fetch('/tcc-horas-complementares/BackEnd/Coordenador/Listar_atividades.php')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro ao carregar as atividades.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const container = document.getElementById('lista-atividades');
+                    container.innerHTML = '';
+
+                    if (!Array.isArray(data) || data.length === 0) {
+                        container.innerHTML = '<p>Nenhuma atividade cadastrada.</p>';
+                        return;
+                    }
+
+                    const tabela = document.createElement('table');
+                    const thead = `
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Categoria</th>
+                                <th>Descrição</th>
+                                <th>Carga Horária Máxima</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>`;
+                    
+                    const tbody = `
+                        <tbody>
+                            ${data.map(atividade => `
+                                <tr>
+                                    <td>${atividade.Id}</td>
+                                    <td>${atividade.Tipo}</td>
+                                    <td>${atividade.Descricao}</td>
+                                    <td>${atividade.CargaHorariaMaxima}</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button onclick="editarCurso(${atividade.Id})">✏️ Editar</button>
+                                            <button onclick="excluirCurso(${atividade.Id})">🗑️ Excluir</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>`;
+
+                    tabela.innerHTML = thead + tbody;
+                    container.appendChild(tabela);
+                })
+                .catch(error => {
+                    document.getElementById('lista-atividades').innerHTML = `<p style="color:red;">Erro ao carregar atividades: ${error.message}</p>`;
+                });
+        }
+
+        function editarCurso(id) {
+            window.location.href = 'Editar_atividade.html?id=' + id;
+        }
+
+        function excluirCurso(id) {
+            if (confirm("Tem certeza que deseja excluir esta atividade?")) {
+                fetch(`/tcc-horas-complementares/BackEnd/Coordenador/Excluir_atividade.php?id=${id}`, {
+                    method: 'DELETE'
+                })
+                .then(response => response.text())
+                .then(msg => {
+                    alert(msg);
+                    carregarAtividades();
+                })
+                .catch(err => {
+                    alert("Erro ao excluir: " + err.message);
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <div id="menu-container"></div> 
+    
+    <div class="container-cursos">
+        <h2>Atividades Cadastradas</h2>
+        <button class="add-button" onclick="window.location.href='Cad_atividade.html'">➕ Cadastrar Nova Atividade</button>
+
+        <div id="lista-atividades"></div>
+    </div>
+
+    <script src="Menu.js"></script>
+</body>
+</html>
