@@ -3,9 +3,9 @@ require_once('../conexao.php');
 
 // Faz JOIN para trazer Tipo (categoria) junto com cada atividade
 $sql = "
-    SELECT ac.Id, c.Tipo, ac.Descricao, ac.CargaHorariaMaxima
-    FROM atividade_categoria ac
-    JOIN categoria c ON ac.CategoriaId = c.Id
+    SELECT ac.Id, c.Categoria, ac.Descricao, ac.CargaHorariaMaxima
+FROM atividade_categoria ac
+JOIN categoria c ON ac.CategoriaId = c.Id
 ";
 
 $resultado = mysqli_query($conn, $sql);

@@ -12,7 +12,7 @@ if (!isset($_GET['id'])) {
 
 $id = intval($_GET['id']);
 $sql = "
-    SELECT ac.Id, c.Tipo, ac.Descricao, ac.CargaHorariaMaxima, c.Id AS CategoriaId
+    SELECT ac.Id, c.Categoria, ac.Descricao, ac.CargaHorariaMaxima, c.Id AS CategoriaId
     FROM atividade_categoria ac
     JOIN categoria c ON ac.CategoriaId = c.Id
     WHERE ac.Id = $id

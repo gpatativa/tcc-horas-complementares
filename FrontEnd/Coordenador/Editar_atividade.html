@@ -27,7 +27,7 @@
                     }
 
                     document.getElementById("Id").value = data.Id;
-                    document.getElementById("Tipo").value = data.Tipo;
+                    document.getElementById("Categoria").value = data.Categoria;
                     document.getElementById("Descricao").value = data.Descricao;
                     document.getElementById("CargaHorariaMaxima").value = data.CargaHorariaMaxima;
                 })
@@ -65,8 +65,8 @@
         <form id="form-curso" onsubmit="salvarAlteracoes(event)">
             <input type="hidden" id="Id" name="Id">
 
-            <label for="Tipo">Categoria:</label>
-            <input type="text" id="Tipo" name="Tipo" required>
+            <label for="Categoria">Categoria:</label>
+            <input type="text" id="Categoria" name="Categoria" required>
 
             <label for="Descricao">Descrição:</label>
             <input type="text" id="Descricao" name="Descricao" required>
