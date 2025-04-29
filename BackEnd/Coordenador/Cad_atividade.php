@@ -1,18 +1,18 @@
 <?php
 require_once '../conexao.php';
 
-$Tipo = $_POST['Tipo'];
+$Categoria = $_POST['Categoria'];
 $Descricao = $_POST['Descricao'];
 $CargaHorariaMaxima = $_POST['CargaHorariaMaxima'];
 
-if (empty($Tipo) || empty($Descricao) || empty($CargaHorariaMaxima)) {
+if (empty($Categoria) || empty($Descricao) || empty($CargaHorariaMaxima)) {
     die("Todos os campos são obrigatórios.");
 }
 
 // Verifica se a categoria já existe
 $sqlCategoria = "SELECT Id FROM categoria WHERE Tipo = ?";
 $stmtCat = $conn->prepare($sqlCategoria);
-$stmtCat->bind_param("s", $Tipo);
+$stmtCat->bind_param("s", $Categoria);
 $stmtCat->execute();
 $resultCat = $stmtCat->get_result();
 
@@ -21,9 +21,9 @@ if ($resultCat->num_rows > 0) {
     $categoriaId = $categoria['Id'];
 } else {
     // Insere nova categoria
-    $sqlInsertCat = "INSERT INTO categoria (Tipo) VALUES (?)";
+    $sqlInsertCat = "INSERT INTO categoria (Categoria) VALUES (?)";
     $stmtInsert = $conn->prepare($sqlInsertCat);
-    $stmtInsert->bind_param("s", $Tipo);
+    $stmtInsert->bind_param("s", $Categoria);
     $stmtInsert->execute();
     $categoriaId = $stmtInsert->insert_id;
     $stmtInsert->close();

@@ -1,14 +1,18 @@
 <?php
-require_once('../conexao.php');
+include('../conexao.php');
+header('Content-Type: application/json; charset=utf-8');
 
-$sql = "SELECT Id, Tipo FROM categoria ORDER BY Tipo ASC";
-$result = mysqli_query($conn, $sql);
+$sql = "SELECT Id, Categoria FROM categoria";
+$result = $conn->query($sql);
 
 $categorias = [];
-while ($row = mysqli_fetch_assoc($result)) {
-    $categorias[] = $row;
+
+while ($row = $result->fetch_assoc()) {
+    $categorias[] = [
+        "Id" => $row["Id"],
+        "Categoria" => $row["Categoria"]
+    ];
 }
 
-header('Content-Type: application/json');
 echo json_encode($categorias);
 ?>
