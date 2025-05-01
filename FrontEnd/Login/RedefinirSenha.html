@@ -79,6 +79,17 @@
         status.style.color = "red";
       }
     });
+
+      // Preenche automaticamente RA e e-mail vindos pela URL
+  window.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const ra = urlParams.get('ra');
+    const email = urlParams.get('email');
+
+    if (ra) document.getElementById("ra").value = ra;
+    if (email) document.getElementById("email").value = email;
+  });
+
   </script>
 </body>
 </html>

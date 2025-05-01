@@ -48,7 +48,7 @@ function autenticarUsuario($conn, $ra, $senha, $tabela, $tipoUsuario, $redirect)
 autenticarUsuario($conn, $ra, $senha, 'Coordenador', 'coordenador', '../../FrontEnd/Coordenador/HomeCoordenador.html');
 
 // Se não for Coordenador, tenta autenticar como Aluno
-autenticarUsuario($conn, $ra, $senha, 'Aluno', 'aluno', '../../FrontEnd/Aluno/aluno_form.html'); // Adicionar o direcionamento correto quando a home do aluno for criada
+autenticarUsuario($conn, $ra, $senha, 'Aluno', 'aluno', '../../FrontEnd/Aluno/Home_aluno.html'); // Adicionar o direcionamento correto quando a home do aluno for criada
 
 // Se não encontrar o usuário
 echo json_encode(['success' => false, 'message' => 'Usuário não encontrado.']);

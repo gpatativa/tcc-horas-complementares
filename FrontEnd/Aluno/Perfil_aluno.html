@@ -8,10 +8,39 @@
     <script defer src="Menu.js"></script> 
 </head>
 <body>
-    
     <header>
-        <div id="menu-container"></div>
-      </header>
-    
-</body>
+      <div id="menu-container"></div>
+    </header>
+  
+    <main class="conteudo">
+        <h1>Meu Perfil</h1>
+        <div class="perfil-info">
+          <p><strong>Nome:</strong> <span id="nome"></span></p>
+          <p><strong>RA:</strong> <span id="ra"></span></p>
+          <p><strong>Email:</strong> <span id="email"></span></p>
+      
+          <button id="btn-redefinir">Redefinir Senha</button>
+        </div>
+      </main>
+      
+      <script>
+        document.getElementById("btn-redefinir").addEventListener("click", () => {
+          const ra = document.getElementById("ra").textContent;
+          const email = document.getElementById("email").textContent;
+          window.location.href = `../Login/RedefinirSenha.html?ra=${encodeURIComponent(ra)}&email=${encodeURIComponent(email)}`;
+        });
+      
+        document.addEventListener("DOMContentLoaded", () => {
+          fetch("../../BackEnd/Aluno/BuscarPerfil.php")
+            .then(res => res.json())
+            .then(data => {
+              document.getElementById("nome").textContent = data.Nome;
+              document.getElementById("ra").textContent = data.RA;
+              document.getElementById("email").textContent = data.Email;
+            })
+            .catch(() => alert("Erro ao carregar dados do perfil."));
+        });
+      </script>
+      
+  </body>
 </html>
