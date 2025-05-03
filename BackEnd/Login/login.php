@@ -45,7 +45,7 @@ function autenticarUsuario($conn, $ra, $senha, $tabela, $tipoUsuario, $redirect)
 }
 
 // Primeiro tenta autenticar como Coordenador
-autenticarUsuario($conn, $ra, $senha, 'Coordenador', 'coordenador', '../../FrontEnd/Coordenador/HomeCoordenador.html');
+autenticarUsuario($conn, $ra, $senha, 'Coordenador', 'coordenador', '../../FrontEnd/Coordenador/Home_coordenador.html');
 
 // Se não for Coordenador, tenta autenticar como Aluno
 autenticarUsuario($conn, $ra, $senha, 'Aluno', 'aluno', '../../FrontEnd/Aluno/Home_aluno.html'); // Adicionar o direcionamento correto quando a home do aluno for criada

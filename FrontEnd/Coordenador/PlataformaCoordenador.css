@@ -213,4 +213,59 @@ h1 {
 }
 
 /* ----------------------------------- */
+
+
+.conteudo {
+    margin-left: 220px; /* espaço equivalente à largura do menu */
+    padding: 4rem 2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #fdfbf8;
+  }
+  
+  .perfil-info {
+    background-color: #ffffff;
+    border: 2px solid #1e3765;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 0 10px rgba(30, 55, 101, 0.1);
+    color: #1e3765;
+    font-size: 1.1rem;
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .perfil-info p {
+    margin: 0;
+    font-size: 1.05rem;
+  }
+  
+  .perfil-info span {
+    font-weight: bold;
+    color: #003366;
+  }
+  
+  .perfil-info button {
+    background-color: #1e3765;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    align-self: flex-end;
+    width: auto;
+    transition: background-color 0.3s ease;
+  }
+  
+  .perfil-info button:hover {
+    background-color: #294c72;
+  }
+  
+  
         
