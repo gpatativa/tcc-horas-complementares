@@ -2,23 +2,11 @@
 include('../conexao.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nome = trim($_POST['nome'] ?? '');
-    $ra = trim($_POST['ra'] ?? '');
-    $email = trim($_POST['email'] ?? '');
-    $curso = trim($_POST['curso'] ?? '');
-    $senha = trim($_POST['senha'] ?? '');
-
-    // Verifica campos obrigatórios
-    if (empty($nome) || empty($ra) || empty($email) || empty($curso) || empty($senha)) {
-        echo "<script>alert('Erro: Todos os campos são obrigatórios!'); window.history.back();</script>";
-        exit();
-    }
-
-    // Valida o formato do e-mail
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo "<script>alert('Erro: E-mail inválido!'); window.history.back();</script>";
-        exit();
-    }
+    $nome = $_POST['nome'];
+    $ra = $_POST['ra'];
+    $email = $_POST['email'];
+    $curso = $_POST['curso'];
+    $senha = $_POST['senha'];
 
     // Verifica se o RA já está cadastrado
     $sql_verificar = "SELECT RA FROM Coordenador WHERE RA = ?";
@@ -28,7 +16,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     mysqli_stmt_store_result($stmt);
 
     if (mysqli_stmt_num_rows($stmt) > 0) {
-        echo "<script>alert('Erro: Este RA já está cadastrado!'); window.history.back();</script>";
+        http_response_code(400);
+        echo "Erro: Este RA já está cadastrado!";
         exit();
     }
     mysqli_stmt_close($stmt);
@@ -37,15 +26,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $senha_hash = password_hash($senha, PASSWORD_BCRYPT);
 
     // Inserindo os dados no banco
-    $sql = "INSERT INTO Coordenador (Nome, RA, email, Curso, Senha) VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO Coordenador (Nome, RA, Email, Curso, Senha) VALUES (?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "sssss", $nome, $ra, $email, $curso, $senha_hash);
 
     if (mysqli_stmt_execute($stmt)) {
-        header("Location: ../../FrontEnd/Coordenador/sucesso.html");
-        exit();
+        echo "Coordenador cadastrado com sucesso!";
     } else {
-        echo "Erro: " . mysqli_error($conn);
+        http_response_code(500);
+        echo "Erro ao cadastrar coordenador.";
     }
 
     mysqli_stmt_close($stmt);

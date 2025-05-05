@@ -1,51 +1,41 @@
 <?php
-include('../conexao.php'); // Verifique se esse caminho está correto!
+include('../conexao.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nome = trim($_POST['nome'] ?? '');
-    $ra = trim($_POST['ra'] ?? '');
-    $email = trim($_POST['email'] ?? '');
-    $curso = trim($_POST['curso'] ?? '');
-    $periodo = trim($_POST['periodo'] ?? '');
-    $senha = trim($_POST['senha'] ?? '');
-
-    // Verifica se algum campo está vazio
-    if (empty($nome) || empty($ra) || empty($email) || empty($curso) || empty($periodo) || empty($senha)) {
-        echo "<script>alert('Erro: Todos os campos são obrigatórios!'); window.history.back();</script>";
-        exit();
-    }
-
-    // Verifica se a conexão com o banco está OK
-    if (!$conn) {
-        die("<script>alert('Erro na conexão com o banco de dados!'); window.history.back();</script>");
-    }
+    $nome = $_POST['nome'];
+    $ra = $_POST['ra'];
+    $email = $_POST['email'];
+    $curso = $_POST['curso'];
+    $periodo = $_POST['periodo'];
+    $senha = $_POST['senha'];
 
     // Verifica se o RA já está cadastrado
-    $sql_verificar = "SELECT RA FROM Aluno WHERE RA = ?";
+    $sql_verificar = "SELECT RA FROM aluno WHERE RA = ?";
     $stmt = mysqli_prepare($conn, $sql_verificar);
     mysqli_stmt_bind_param($stmt, "s", $ra);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_store_result($stmt);
 
     if (mysqli_stmt_num_rows($stmt) > 0) {
-        echo "<script>alert('Erro: Este RA já está cadastrado!'); window.history.back();</script>";
+        http_response_code(400);
+        echo "Erro: Este RA já está cadastrado!";
         exit();
     }
     mysqli_stmt_close($stmt);
 
-    // Gera um hash seguro da senha
+    // Hash da senha para segurança
     $senha_hash = password_hash($senha, PASSWORD_BCRYPT);
 
-    // Insere os dados no banco (corrigido: 6 campos -> 6 variáveis)
-    $sql = "INSERT INTO Aluno (Nome, RA, email, Curso, Periodo, Senha) VALUES (?, ?, ?, ?, ?, ?)";
+    // Inserindo os dados no banco
+    $sql = "INSERT INTO aluno (Nome, RA, Email, Curso, Periodo, Senha) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "ssssss", $nome, $ra, $email, $curso, $periodo, $senha_hash);
 
     if (mysqli_stmt_execute($stmt)) {
-        echo "<script>alert('Cadastro realizado com sucesso!'); window.location.href = '../../FrontEnd/Coordenador/sucesso.html';</script>";
-        exit();
+        echo "Aluno cadastrado com sucesso!";
     } else {
-        echo "<script>alert('Erro ao cadastrar: " . mysqli_error($conn) . "'); window.history.back();</script>";
+        http_response_code(500);
+        echo "Erro ao cadastrar aluno.";
     }
 
     mysqli_stmt_close($stmt);
