@@ -36,6 +36,8 @@
 
       <label for="comprovante">Atualizar Comprovante (PDF):</label>
       <input type="file" name="comprovante" id="comprovante" accept=".pdf" />
+      <div id="arquivo-atual" style="margin-top: 5px; font-style: italic; color: #333;"></div>
+      <div id="nome-arquivo" style="margin-top: 5px; font-style: italic; color: #333;"></div>
 
       <button type="submit" class="botao-principal">Salvar Alterações</button>
     </form>
@@ -44,11 +46,15 @@
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     const atividadeId = urlParams.get('id');
-
+  
     const form = document.getElementById('form-editar');
     const categoriaSelect = document.getElementById('categoria');
     const descricaoSelect = document.getElementById('descricao');
-
+  
+    const inputComprovante = document.getElementById('comprovante');
+    const nomeArquivoSpan = document.getElementById('nome-arquivo');
+    const arquivoAtualSpan = document.getElementById('arquivo-atual');
+  
     // Carrega categorias
     fetch('../../BackEnd/Aluno/Listar_categorias.php')
       .then(res => res.json())
@@ -61,7 +67,7 @@
           categoriaSelect.appendChild(opt);
         });
       });
-
+  
     // Carrega dados da atividade
     fetch(`../../BackEnd/Aluno/Buscar_atividade.php?id=${atividadeId}`)
       .then(res => res.json())
@@ -70,7 +76,12 @@
         document.getElementById('descricao_texto').value = data.Resumo;
         document.getElementById('horas').value = data.CargaHoraria;
         categoriaSelect.value = data.CategoriaId;
-
+  
+        // Exibe o nome do arquivo já existente
+        if (data.ArquivoComprovante) {
+          arquivoAtualSpan.innerHTML = `📎 Arquivo atual: <strong>${data.ArquivoComprovante}</strong>`;
+        }
+  
         // Carrega descrições da categoria selecionada
         return fetch(`../../BackEnd/Aluno/Listar_descricoes_por_categoria.php?categoriaId=${data.CategoriaId}`)
           .then(res => res.json())
@@ -85,12 +96,12 @@
             descricaoSelect.value = data.CategoriaAtividadeId;
           });
       });
-
-    // Quando muda categoria, atualiza descrições
+  
+    // Atualiza descrições ao mudar categoria
     categoriaSelect.addEventListener('change', () => {
       const categoriaId = categoriaSelect.value;
       descricaoSelect.innerHTML = '<option value="">Carregando...</option>';
-
+  
       fetch(`../../BackEnd/Aluno/Listar_descricoes_por_categoria.php?categoriaId=${categoriaId}`)
         .then(res => res.json())
         .then(descricoes => {
@@ -103,13 +114,22 @@
           });
         });
     });
-
-    // Enviar formulário
+  
+    // Mostra nome do novo arquivo selecionado
+    inputComprovante.addEventListener('change', function () {
+      if (this.files && this.files.length > 0) {
+        nomeArquivoSpan.textContent = `📄 Novo arquivo selecionado: ${this.files[0].name}`;
+      } else {
+        nomeArquivoSpan.textContent = '';
+      }
+    });
+  
+    // Envia formulário
     form.addEventListener('submit', e => {
       e.preventDefault();
-
+  
       const formData = new FormData(form);
-
+  
       fetch('../../BackEnd/Aluno/Atualizar_atividade.php', {
         method: 'POST',
         body: formData
@@ -122,7 +142,8 @@
         .catch(err => alert("Erro ao atualizar: " + err.message));
     });
   </script>
-
+    
+  
   <script src="Menu.js"></script>
 </body>
 </html>

@@ -2,7 +2,7 @@
 include('../conexao.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $alunoId = 1;
+    $alunoId = $_SESSION['aluno_id'];
     $categoriaAtividadeId = intval($_POST['descricao']);
     $resumo = trim($_POST['descricao_texto']);
     $cargaHoraria = intval($_POST['horas']);
@@ -20,10 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         }
 
-        $novoNome = uniqid('comprovante_', true) . '.pdf';
         $pastaUploads = __DIR__ . '/../../UploadsAtividades';
-
-
         clearstatcache();
 
         if (!file_exists($pastaUploads)) {
@@ -34,7 +31,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         $pastaAbsoluta = realpath($pastaUploads);
+
+        // Usa o nome original do arquivo
+        $novoNome = basename($nomeOriginal);
         $destino = $pastaAbsoluta . DIRECTORY_SEPARATOR . $novoNome;
+
+        // Verifica se já existe arquivo com esse nome, e renomeia se necessário
+        $contador = 1;
+        $nomeBase = pathinfo($novoNome, PATHINFO_FILENAME);
+        while (file_exists($destino)) {
+            $novoNome = $nomeBase . "_{$contador}." . $extensao;
+            $destino = $pastaAbsoluta . DIRECTORY_SEPARATOR . $novoNome;
+            $contador++;
+        }
 
         if (!move_uploaded_file($arquivoTmp, $destino)) {
             $erro = error_get_last();
@@ -52,6 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
+    // Inserção no banco
     $sql = "INSERT INTO atividadecomplementar 
             (AlunoId, CategoriaAtividadeId, Descricao, Resumo, Data, CargaHoraria, ArquivoComprovante, Status)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)";

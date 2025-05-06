@@ -2,16 +2,12 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
-    display: flex;
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
-    height: 100vh; /* Ocupa 100% da altura da tela */
 }
 
 
 .menu-lateral {
     width: 210px;
-    background-color: #0b1553;
+    background-color: #1e3765;
     color: white;
     height: 100vh;
     padding: 20px;
@@ -49,8 +45,8 @@ body {
     margin-left: 220px;
     padding: 20px;
     width: calc(100% - 220px);
-}
-
+  }
+  
 .secao {
     display: none;
 }
@@ -92,10 +88,31 @@ th, td {
 
 
 /* --------------------- CadCurso e CadCoordenador */
-h2 {
+/* h2 {
     text-align: center;
     margin-bottom: 20px;
-}
+} */
+
+h2 {
+    text-align: center;
+    color: #003366;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+  }
+
+/* h2 {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    color: #003366;
+  }   */
+  
+
+.tabela-home h2 {
+    width: 100%;
+    text-align: center;
+  }
+  
 
 .container {
     background: white;
@@ -103,7 +120,8 @@ h2 {
     border-radius: 8px;
     box-shadow: 0px 0px 10px 0px #0000001a;
     width: 300px;
-    margin-left: 220px; /* Evita que o menu lateral sobreponha */
+    margin-left: 700px; /* Evita que o menu lateral sobreponha */
+    margin-top: 100px;
 }
 
 
@@ -116,7 +134,7 @@ button {
     width: 100%;
     margin-top: 15px;
     padding: 3%;
-    background-color: #1b2d92;
+    background-color: #1e3765;
     color: white;
     border: none;
     border-radius: 4px;
@@ -124,7 +142,7 @@ button {
 }
 
 button:hover {
-    background-color: #051396;
+    background-color: #294c72;
 }
 
 .erro-msg {
@@ -148,25 +166,26 @@ input[type="number"] {
 /* -------------------- GerenciarAlunos */
 
 .container-gerenciar-alunos {
-    background: white;
-    padding: 5%;
+    max-width: 900px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 20px;
     border-radius: 8px;
-    box-shadow: 0px 0px 5px 0px #0000001a;
-    width: 65%;
-    margin-left: 220px; 
-    text-align: justify;
+    box-shadow: 0px 0px 10px #00000010;
+    margin-left: calc(220px + (100% - 220px - 900px) / 2);
 }
 
 h1 {
     text-align: center;
     margin-bottom: 0px;
+    font-size: 1.5rem;
 }
 
 .button-filtrar {
     width: 15%;
     margin-top: 15px;
     padding: 1%;
-    background-color: #051396;
+    background-color: #1e3765;
     color: white;
     border: none;
     border-radius: 4px;
@@ -213,4 +232,47 @@ h1 {
 }
 
 /* ----------------------------------- */
-        
+.tabela-home {
+    width: 100%;
+    padding: 0 2rem;
+  }
+  
+  .table-home {
+    width: 75%;              /* ← define uma largura menor */
+    min-width: 500px;        /* ← garante que não fique estreita demais */
+    margin: 2rem auto;       /* ← centraliza horizontalmente */
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 2px solid #003366;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: white;
+  }
+  
+  thead th {
+    color: white; /* Texto branco apenas no cabeçalho */
+    text-align: center;
+    background-color: #003366;
+  }
+  
+  th, td {
+    padding: 10px;
+    border-bottom: 1px solid #294c72;
+    border-right: 1px solid #294c72;
+    text-align: center;
+    color: black;
+    background-color: white; /* Garante fundo branco nas células */
+  }
+  
+  td:last-child, th:last-child {
+    border-right: none; /* Remove linha da última coluna */
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: white;
+    font-weight: bold;
+    font-size: 1.5rem; /* Aumenta o tamanho da fonte */
+  }

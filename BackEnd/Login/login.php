@@ -1,44 +1,69 @@
 <?php
 session_start();
-require '../conexao.php';
+include('../conexao.php');
 
-header("Content-Type: application/json");
+header('Content-Type: application/json');
 
-$ra = $_POST['ra'] ?? '';
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    echo json_encode(['success' => false, 'message' => 'Requisição inválida.']);
+    exit;
+}
+
+$ra = trim($_POST['ra'] ?? '');
 $senha = $_POST['senha'] ?? '';
 
 if (empty($ra) || empty($senha)) {
-    echo json_encode(["success" => false, "message" => "RA e senha são obrigatórios"]);
-    exit();
+    echo json_encode(['success' => false, 'message' => 'RA e senha são obrigatórios.']);
+    exit;
 }
 
-// Verifica primeiro se é um aluno
-$sqlAluno = "SELECT id, nome, senha FROM aluno WHERE ra = :ra";
-$stmt = $pdo->prepare($sqlAluno);
-$stmt->bindParam(':ra', $ra);
-$stmt->execute();
-$aluno = $stmt->fetch(PDO::FETCH_ASSOC);
+function verificarLogin($conn, $ra, $senha, $tabela, $tipoSessao, $redirect) {
+    $sql = "SELECT * FROM $tabela WHERE RA = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $ra);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
 
-if ($aluno && password_verify($senha, $aluno['senha'])) {
-    $_SESSION['usuario'] = $aluno['nome'];
-    $_SESSION['tipo'] = "Aluno";
-    echo json_encode(["success" => true, "redirect" => "../Aluno/dashboard.html"]);
-    exit();
+    if ($row = mysqli_fetch_assoc($result)) {
+        if (password_verify($senha, $row['Senha'])) {
+            $_SESSION[$tipoSessao . '_id'] = $row['Id'];
+            $_SESSION[$tipoSessao . '_nome'] = $row['Nome'];
+            return ['success' => true, 'redirect' => $redirect];
+        } else {
+            return ['success' => false, 'message' => 'Senha incorreta.'];
+        }
+    }
+    return null;
 }
 
-// Se não for aluno, verifica se é um coordenador
-$sqlCoordenador = "SELECT id, nome, senha FROM coordenador WHERE ra = :ra";
-$stmt = $pdo->prepare($sqlCoordenador);
-$stmt->bindParam(':ra', $ra);
-$stmt->execute();
-$coordenador = $stmt->fetch(PDO::FETCH_ASSOC);
+// Caminhos corrigidos conforme estrutura do GitHub
+$resAluno = verificarLogin(
+    $conn,
+    $ra,
+    $senha,
+    'aluno',
+    'aluno',
+    '../../FrontEnd/Alunos/Home_alunos.html'
+);
 
-if ($coordenador && password_verify($senha, $coordenador['senha'])) {
-    $_SESSION['usuario'] = $coordenador['nome'];
-    $_SESSION['tipo'] = "Coordenador";
-    echo json_encode(["success" => true, "redirect" => "../Coordenador/dashboard.html"]);
-    exit();
+if ($resAluno !== null) {
+    echo json_encode($resAluno);
+    exit;
 }
 
-echo json_encode(["success" => false, "message" => "RA ou senha inválidos"]);
+$resCoord = verificarLogin(
+    $conn,
+    $ra,
+    $senha,
+    'coordenador',
+    'coordenador',
+    '../../FrontEnd/Coordenador/Home_coordenador.html'
+);
+
+if ($resCoord !== null) {
+    echo json_encode($resCoord);
+    exit;
+}
+
+echo json_encode(['success' => false, 'message' => 'RA não encontrado.']);
 ?>

@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
         formData.append("senha", senha.value);
 
         try {
-            const response = await fetch("../../BackEnd/", {
+            const response = await fetch("../../Backend/Login/login.php", {
                 method: "POST",
                 body: formData
             });

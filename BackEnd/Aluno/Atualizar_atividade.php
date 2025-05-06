@@ -19,9 +19,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         }
 
-        $novoNome = uniqid('comprovante_', true) . '.pdf';
+        $baseNome = pathinfo($nomeOriginal, PATHINFO_FILENAME);
+        $novoNome = basename($nomeOriginal); // começa com o nome original
         $pasta = __DIR__ . '/../../UploadsAtividades';
-
         clearstatcache();
 
         if (!file_exists($pasta)) {
@@ -31,7 +31,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
 
-        $destino = realpath($pasta) . DIRECTORY_SEPARATOR . $novoNome;
+        $pastaAbsoluta = realpath($pasta);
+        $destino = $pastaAbsoluta . DIRECTORY_SEPARATOR . $novoNome;
+
+        // Evita sobrescrever arquivos existentes
+        $contador = 1;
+        while (file_exists($destino)) {
+            $novoNome = $baseNome . '_' . $contador . '.pdf';
+            $destino = $pastaAbsoluta . DIRECTORY_SEPARATOR . $novoNome;
+            $contador++;
+        }
 
         if (!move_uploaded_file($arquivoTmp, $destino)) {
             echo "Erro ao salvar o novo comprovante.";
@@ -41,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $comprovante = $novoNome;
     }
 
-    // Atualiza o registro
+    // Atualiza o registro no banco
     if ($comprovante) {
         $sql = "UPDATE atividadecomplementar 
                 SET CategoriaAtividadeId = ?, Resumo = ?, CargaHoraria = ?, ArquivoComprovante = ?

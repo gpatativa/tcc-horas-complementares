@@ -10,7 +10,7 @@ if (empty($Categoria) || empty($Descricao) || empty($CargaHorariaMaxima)) {
 }
 
 // Verifica se a categoria já existe
-$sqlCategoria = "SELECT Id FROM categoria WHERE Tipo = ?";
+$sqlCategoria = "SELECT Id FROM categoria WHERE Categoria = ?";
 $stmtCat = $conn->prepare($sqlCategoria);
 $stmtCat->bind_param("s", $Categoria);
 $stmtCat->execute();
