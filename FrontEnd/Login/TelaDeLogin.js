@@ -19,11 +19,17 @@ document.addEventListener("DOMContentLoaded", () => {
         formData.append("senha", senha.value);
 
         try {
+<<<<<<< HEAD
             const response = await fetch("../../Backend/Login/login.php", {
+=======
+            const response = await fetch("../../BackEnd/Login/login.php", { // Direção para o back-end
+>>>>>>> ce4774f23f0887616b92836d741f58600b4c6465
                 method: "POST",
                 body: formData
             });
-
+            
+            
+            
             const data = await response.json();
             if (data.success) {
                 statusMessage.textContent = "Login realizado com sucesso!";

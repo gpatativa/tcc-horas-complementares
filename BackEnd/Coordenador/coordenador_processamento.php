@@ -4,6 +4,7 @@ include('../conexao.php');
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome = $_POST['nome'];
     $ra = $_POST['ra'];
+    $email = $_POST['email'];
     $curso = $_POST['curso'];
     $senha = $_POST['senha'];
 
@@ -15,7 +16,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     mysqli_stmt_store_result($stmt);
 
     if (mysqli_stmt_num_rows($stmt) > 0) {
-        echo "<script>alert('Erro: Este RA já está cadastrado!'); window.history.back();</script>";
+        http_response_code(400);
+        echo "Erro: Este RA já está cadastrado!";
         exit();
     }
     mysqli_stmt_close($stmt);
@@ -24,15 +26,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $senha_hash = password_hash($senha, PASSWORD_BCRYPT);
 
     // Inserindo os dados no banco
-    $sql = "INSERT INTO Coordenador (Nome, RA, Curso, Senha) VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO Coordenador (Nome, RA, Email, Curso, Senha) VALUES (?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "ssss", $nome, $ra, $curso, $senha_hash);
-    
+    mysqli_stmt_bind_param($stmt, "sssss", $nome, $ra, $email, $curso, $senha_hash);
+
     if (mysqli_stmt_execute($stmt)) {
-        header("Location: ../../FrontEnd/Coordenador/sucesso.html");
-        exit();
+        echo "Coordenador cadastrado com sucesso!";
     } else {
-        echo "Erro: " . mysqli_error($conn);
+        http_response_code(500);
+        echo "Erro ao cadastrar coordenador.";
     }
 
     mysqli_stmt_close($stmt);

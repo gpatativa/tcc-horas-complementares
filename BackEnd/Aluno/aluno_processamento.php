@@ -4,19 +4,21 @@ include('../conexao.php');
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome = $_POST['nome'];
     $ra = $_POST['ra'];
+    $email = $_POST['email'];
     $curso = $_POST['curso'];
     $periodo = $_POST['periodo'];
     $senha = $_POST['senha'];
 
     // Verifica se o RA já está cadastrado
-    $sql_verificar = "SELECT RA FROM Aluno WHERE RA = ?";
+    $sql_verificar = "SELECT RA FROM aluno WHERE RA = ?";
     $stmt = mysqli_prepare($conn, $sql_verificar);
     mysqli_stmt_bind_param($stmt, "s", $ra);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_store_result($stmt);
 
     if (mysqli_stmt_num_rows($stmt) > 0) {
-        echo "<script>alert('Erro: Este RA já está cadastrado!'); window.history.back();</script>";
+        http_response_code(400);
+        echo "Erro: Este RA já está cadastrado!";
         exit();
     }
     mysqli_stmt_close($stmt);
@@ -25,15 +27,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $senha_hash = password_hash($senha, PASSWORD_BCRYPT);
 
     // Inserindo os dados no banco
-    $sql = "INSERT INTO Aluno (Nome, RA, Curso, Periodo, Senha) VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO aluno (Nome, RA, Email, Curso, Periodo, Senha) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "sssss", $nome, $ra, $curso, $periodo, $senha_hash);
-    
+    mysqli_stmt_bind_param($stmt, "ssssss", $nome, $ra, $email, $curso, $periodo, $senha_hash);
+
     if (mysqli_stmt_execute($stmt)) {
-        header("Location: ../../FrontEnd/Coordenador/sucesso.html"); 
-        exit();
+        echo "Aluno cadastrado com sucesso!";
     } else {
-        echo "Erro: " . mysqli_error($conn);
+        http_response_code(500);
+        echo "Erro ao cadastrar aluno.";
     }
 
     mysqli_stmt_close($stmt);

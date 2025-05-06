@@ -19,11 +19,16 @@
                 </div>
 
                 <div class="input-group">
-                    <input type="password" id="senha" name="senha" placeholder="Digite sua Senha..." required>
+                    <input type="password" id="senha" name="senha" placeholder="Digite sua Senha..." required autocomplete="current-password">
+
                     <span class="error-message"></span>
                 </div>
 
                 <button type="submit" class="btn">Entrar</button>
+                
+                                <!-- ajustar redirecionamento quand possível -->
+                <a href="RedefinirSenha.html" class="btn-secondary">Esqueci minha senha?</a>        
+
                 <p id="login-status"></p>
             </form>
         </div>
