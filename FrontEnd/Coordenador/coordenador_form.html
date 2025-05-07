@@ -6,24 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Coordenador</title>
     <link rel="stylesheet" href="PlataformaCoordenador.css">
-    <script defer src="coordenador_form.js"></script> <!-- Adicionando JS -->
+
     <script defer src="Menu.js"></script> 
 </head>
+
 <body>
 
     <div id="menu-container"></div>
-=======
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cadastro de Coordenador</title>
-  <link rel="stylesheet" href="PlataformaCoordenador.css">
-  <script defer src="Menu.js"></script>
-</head>
-<body>
-
-    <div id="menu-container"></div> 
->>>>>>> ce4774f23f0887616b92836d741f58600b4c6465
-
+    
   <div class="container">
     <h2>Cadastro de Coordenador</h2>
     <form id="form-coordenador">
@@ -37,7 +27,9 @@
       <input type="email" id="email" name="email" required>
 
       <label for="curso">Curso:</label>
-      <input type="text" id="curso" name="curso" required>
+      <select id="curso" name="curso" required>
+          <option value="">Selecione um curso</option>
+      </select>
 
       <label for="senha">Senha:</label>
       <input type="password" id="senha" name="senha" required>
@@ -76,6 +68,21 @@
       .catch(err => {
         alert("Erro: " + err.message);
       });
+    });
+
+    fetch("../../BackEnd/Coordenador/Listar_cursos.php")
+    .then(response => response.json())
+    .then(data => {
+        const select = document.getElementById("curso");
+        data.forEach(curso => {
+            const option = document.createElement("option");
+            option.value = curso.Nome_curso;
+            option.textContent = curso.Nome_curso;
+            select.appendChild(option);
+        });
+    })
+    .catch(error => {
+        console.error("Erro ao carregar cursos:", error);
     });
   </script>
 </body>

@@ -6,7 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $ra = $_POST['ra'];
     $email = $_POST['email'];
     $curso = $_POST['curso'];
-    $periodo = $_POST['periodo'];
+    $Ano_inicio = $_POST['Ano_inicio'];
     $senha = $_POST['senha'];
 
     // Verifica se o RA já está cadastrado
@@ -27,9 +27,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $senha_hash = password_hash($senha, PASSWORD_BCRYPT);
 
     // Inserindo os dados no banco
-    $sql = "INSERT INTO aluno (Nome, RA, Email, Curso, Periodo, Senha) VALUES (?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO aluno (Nome, RA, Email, Curso, Ano_inicio, Senha) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "ssssss", $nome, $ra, $email, $curso, $periodo, $senha_hash);
+    mysqli_stmt_bind_param($stmt, "ssssss", $nome, $ra, $email, $curso, $Ano_inicio, $senha_hash);
 
     if (mysqli_stmt_execute($stmt)) {
         echo "Aluno cadastrado com sucesso!";
