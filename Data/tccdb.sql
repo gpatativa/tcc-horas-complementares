@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 08/05/2025 às 16:33
+-- Tempo de geração: 09/05/2025 às 19:54
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.0.30
 
@@ -42,8 +42,9 @@ CREATE TABLE `aluno` (
 --
 
 INSERT INTO `aluno` (`Id`, `Nome`, `RA`, `Curso`, `Ano_inicio`, `Senha`, `email`) VALUES
-(1, 'Gustavo', '0766231', 'Tads', '4° Semestre', '$2y$10$Xju1jLhWCAVc/s3xqT5uRO0DXpgpCN2vX9mjlkOQ8cooGUstkCLNW', ''),
-(2, 'Teste Aluno', '123456789', 'Teste', '5° Semestre', '$2y$10$xThXS6srB89ZLi/5XnOAO.pDlAlwicBphi6zfUSJ8vWYtcmylC2Fu', '');
+(1, 'Gustavo Oliveira Patativa', '0766231', 'Tads', '2023', '$2y$10$Xju1jLhWCAVc/s3xqT5uRO0DXpgpCN2vX9mjlkOQ8cooGUstkCLNW', 'Gustavo@gmail.com'),
+(4, 'Mariana Pedroso', '741852963', 'tads', '2023', '$2y$10$htD4kU0eG/BM5dPgcwJVCuiW7.7rmIiNE8ICM/VwEsmL6hffZi8ve', 'teste@teste.com'),
+(5, 'testando novamente', '987654321', 'TADS', '2025', '$2y$10$/QUS80iEpuWw3SieoDhXTuX2.4J3ZCwz8.fUwqDA/14CpKXcQwxHq', 'teste@teste.com');
 
 -- --------------------------------------------------------
 
@@ -70,9 +71,11 @@ CREATE TABLE `atividadecomplementar` (
 
 INSERT INTO `atividadecomplementar` (`Id`, `AlunoId`, `CategoriaAtividadeId`, `Descricao`, `Resumo`, `Data`, `CargaHoraria`, `ArquivoComprovante`, `Status`, `ObservacaoCoordenador`) VALUES
 (5, 1, 8, 'Extensão - Organização e ministrante de cursos', 'Testando', '2025-04-22', 20, 'comprovante_6806ef28a02713.13387314.pdf', 'Pendente', NULL),
-(6, 1, 6, '', 'teste pdf', '2025-04-22', 25, 'comprovante_6806ef02c748c2.75106015.pdf', 'Pendente', NULL),
-(7, 1, 5, '', 'Teste 2 PDF', '2025-04-22', 20, 'comprovante_6806ed9c0e9cf9.44526579.pdf', 'Pendente', NULL),
-(10, 1, 1, '', 'teste', '2025-04-23', 12, 'comprovante_680818ed661a01.81563097.pdf', 'Pendente', NULL);
+(12, 4, 7, 'Execução de trabalho de projeto docente', 'uysgdkcbfs', '2025-05-09', 27, 'Curriculo - Mariana Leonardo de Souza Pedroso_3.pdf', 'Pendente', NULL),
+(13, 4, 5, 'Ministrante de cursos organizados por docentes', 'kajhbfkwjce', '2025-05-09', 200, 'Curriculum Vitae - Mariana Leonardo de Souza Pedroso_1.pdf', 'Pendente', NULL),
+(14, 4, 3, 'Execução de trabalho de projeto docente', 'uioadumc', '2025-05-09', 600, 'Curriculo - Mariana Leonardo de Souza Pedroso_4.pdf', 'Pendente', NULL),
+(15, 5, 5, 'Ministrante de cursos organizados por docentes', 'Resumoooo testando o cadastro', '2025-05-09', 20, 'ComprovanteEscolaridade_Mariana_4.pdf', 'Pendente', NULL),
+(16, 4, 7, 'Execução de trabalho de projeto docente', 'Testando com a mãe', '2025-05-09', 8000, 'ComprovanteEscolaridade_Mariana_5.pdf', 'Pendente', NULL);
 
 -- --------------------------------------------------------
 
@@ -244,13 +247,13 @@ ALTER TABLE `cursos`
 -- AUTO_INCREMENT de tabela `aluno`
 --
 ALTER TABLE `aluno`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `atividadecomplementar`
 --
 ALTER TABLE `atividadecomplementar`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de tabela `atividade_categoria`
