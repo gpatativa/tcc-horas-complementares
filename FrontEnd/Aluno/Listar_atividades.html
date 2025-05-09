@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sistema de Horas</title>
+  <link rel="stylesheet" href="Alunos.css" />
+</head>
+<body>
+
+  <header>
+    <div id="menu-container"></div>
+  </header>
+
+  <main class="conteudo">
+    <h1>Minhas Atividades Complementares</h1>
+
+    <button class="botao-principal" onclick="location.href='Cad_atividade.php'">Cadastrar atividade</button>
+
+
+    <div class="tabela-container">
+      <h2>Atividades Cadastradas</h2>
+      <table class="table-atividades">
+        <thead>
+          <tr>
+            <th>Categoria</th>
+            <th>Descrição</th>
+            <th>Resumo</th>
+            <th>Arquivo</th>
+            <th>Horas solicitadas</th>
+            <th>Horas concedidas</th>
+            <th>Status</th>
+            <th>Opções</th>
+          </tr>
+        </thead>
+        <tbody id="corpo-tabela">
+          <!-- Preenchido dinamicamente -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('../../BackEnd/Aluno/Listar_atividades.php')
+        .then(res => res.json())
+        .then(data => {
+          const tbody = document.getElementById('corpo-tabela');
+
+          data.forEach(atividade => {
+            const linha = document.createElement('tr');
+
+            linha.innerHTML = `
+              <td>${atividade.CategoriaNome}</td>
+              <td>${atividade.Descricao}</td>
+              <td>${atividade.Resumo}</td>
+              <td><a href="../../UploadsAtividades/${atividade.ArquivoComprovante}" target="_blank">
+                ${atividade.ArquivoComprovante}
+              </a>
+              </td>
+              <td>${atividade.CargaHoraria}</td>
+              <td>-</td>
+              <td>${atividade.Status}</td>
+              <td>
+                <div class="btn-group">
+                  <button onclick="editarAtividade(${atividade.Id})">✏️ Editar</button>
+                  <button onclick="excluirAtividade(${atividade.Id})">🗑️ Excluir</button>
+                </div>
+              </td>
+            `;
+
+            tbody.appendChild(linha);
+          });
+        })
+        .catch(err => {
+          alert("Erro ao carregar atividades: " + err.message);
+        });
+    });
+
+    function editarAtividade(id) {
+      window.location.href = `Editar_atividade.html?id=${id}`;
+    }
+
+    function excluirAtividade(id) {
+      if (confirm("Tem certeza que deseja excluir esta atividade?")) {
+        fetch(`../../BackEnd/Aluno/Excluir_atividade.php?id=${id}`, {
+          method: 'DELETE'
+        })
+        .then(res => res.text())
+        .then(msg => {
+          alert(msg);
+          location.reload();
+        })
+        .catch(err => {
+          alert("Erro ao excluir: " + err.message);
+        });
+      }
+    }
+  </script>
+
+  <script src="Menu.js"></script>
+</body>
+</html>

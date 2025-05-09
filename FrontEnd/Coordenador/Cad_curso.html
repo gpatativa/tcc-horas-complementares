@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Curso</title>
+    
+    <link rel="stylesheet" href="Listar_coordenadores-cursos.css">
+    <link rel="stylesheet" href="PlataformaCoordenador.css">
+    <script defer src="Menu.js"></script> 
+</head>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        fetch("../../BackEnd/Coordenador/Listar_coordenadores.php") // ajuste o caminho se necessário
+            .then(response => response.json())
+            .then(data => {
+                const select = document.getElementById("Coordenador");
+                data.forEach(coordenador => {
+                    const option = document.createElement("option");
+                    option.value = coordenador.Nome;
+                    option.textContent = coordenador.Nome;
+                    select.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error("Erro ao carregar coordenadores:", error);
+            });
+    });
+</script>
+
+<body>
+
+    <div id="menu-container"></div> 
+
+    <div class="container">
+        <h2>Cadastro de Curso</h2>
+        <form method="POST" action="../../BackEnd/Coordenador/Cad_curso.php">
+            <label for="Nome_curso">Nome:</label>
+            <input type="text" id="Nome_curso" name="Nome_curso" required>
+            
+            <label for="Ano_inicio">Ano de Início:</label>
+            <input type="number" id="Ano_inicio" name="Ano_inicio" placeholder="Ano em que o aluno ingressou" required>
+
+            <label for="Coordenador">Nome do Coordenador:</label>
+            <select id="Coordenador" name="Coordenador" required>
+                <option value="">Selecione um coordenador</option>
+            </select>
+
+
+            <button type="submit">Cadastrar</button>
+        </form>
+    </div>
+    <script src="Menu.js"></script>
+</body>
+</html>

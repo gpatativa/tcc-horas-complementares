@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listagem de Coordenadores</title>
+    <link rel="stylesheet" href="PlataformaCoordenador.css">
+    <link rel="stylesheet" href="Listar_coordenadores-cursos.css">
+
+    <script defer src="Menu.js"></script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            carregarCoordenadores();
+        });
+
+        function carregarCoordenadores() {
+            fetch("../../BackEnd/Coordenador/Listar_coordenadores.php")
+                .then(res => res.json())
+                .then(data => {
+                    const container = document.getElementById("lista-coordenadores");
+                    container.innerHTML = "";
+
+                    if (!Array.isArray(data) || data.length === 0) {
+                        container.innerHTML = "<p>Nenhum coordenador cadastrado.</p>";
+                        return;
+                    }
+
+                    const tabela = document.createElement("table");
+                    tabela.innerHTML = `
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>RA</th>
+                                <th>Curso</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${data.map(coord => `
+                                <tr>
+                                    <td>${coord.Id}</td>
+                                    <td>${coord.Nome}</td>
+                                    <td>${coord.RA}</td>
+                                    <td>${coord.Curso}</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button onclick="editarCoordenador(${coord.Id})">✏️ Editar</button>
+                                            <button onclick="excluirCoordenador(${coord.Id})">🗑️ Excluir</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            `).join("")}
+                        </tbody>
+                    `;
+                    container.appendChild(tabela);
+                })
+                .catch(err => {
+                    document.getElementById("lista-coordenadores").innerHTML = `
+                        <p style="color:red;">Erro ao carregar coordenadores: ${err.message}</p>`;
+                });
+        }
+
+        function editarCoordenador(id) {
+            window.location.href = `Editar_coordenador.html?id=${id}`;
+        }
+
+        function excluirCoordenador(id) {
+            if (confirm("Deseja realmente excluir este coordenador?")) {
+                fetch(`../../BackEnd/Coordenador/Excluir_coordenador.php?id=${id}`, {
+                    method: "DELETE"
+                })
+                .then(res => res.text())
+                .then(msg => {
+                    alert(msg);
+                    carregarCoordenadores();
+                })
+                .catch(err => {
+                    alert("Erro ao excluir: " + err.message);
+                });
+            }
+        }
+    </script>
+
+</head>
+<body>
+
+    <div id="menu-container"></div>
+
+    <div class="container-coordenadores">
+        <h2>Coordenadores</h2>
+        <button class="add-button" onclick="window.location.href='coordenador_form.html'">➕ Adicionar Coordenador</button>
+
+        <div id="lista-coordenadores"></div>
+    </div>
+    <script src="Menu.js"></script>
+</body>
+</html>

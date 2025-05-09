@@ -1,0 +1,249 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  body {
+    background-color: #fdfbf8;
+    color: #1e3765;
+    font-family: Arial, sans-serif;
+  }
+  
+  .topo {
+    background-color: #1e3765;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;        /* fixo no topo */
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;          /* garante que fique acima do conteúdo */
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem; /* Aumenta o tamanho da fonte */
+  }
+  
+  
+  .menu a {
+    color: white;
+    margin-left: 2rem;
+    text-decoration: none;
+    font-size: 1rem;
+  }
+  
+  .conteudo {
+  padding: 6rem 2rem 2rem 2rem; /* 6rem no topo para não cobrir o conteúdo */
+}
+  
+  .conteudo h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .botao-principal {
+    background-color: #1e3765;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    border-radius: 12px;
+    cursor: pointer;
+    display: block;
+    margin-left: auto; /* empurra para a direita */
+    margin-right: 0;
+    margin-bottom: 2rem;
+  }
+  
+  
+  
+  .conteudo h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+  
+  .tabela {
+    border: 2px solid #1e3765;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .cabecalho,
+  .linha {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 1rem;
+    margin-bottom: 0.8rem;
+  }
+  
+  .cabecalho span {
+    font-weight: bold;
+  }
+  
+  .linha span {
+    background-color: #e6eaf3;
+    height: 20px;
+    border-radius: 5px;
+  }
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}  
+
+.formulario {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .formulario label {
+    font-weight: bold;
+  }
+  
+  .formulario select,
+  .formulario textarea,
+  .formulario input[type="number"] {
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    width: 100%;
+  }
+  
+  .tabela-container {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .tabela-home {
+    width: 100%;
+    padding: 0 2rem;
+  }
+  
+  h2 {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    color: #003366;
+  }  
+  
+  .table-home {
+    width: 75%;              /* ← define uma largura menor */
+    min-width: 500px;        /* ← garante que não fique estreita demais */
+    margin: 2rem auto;       /* ← centraliza horizontalmente */
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 2px solid #003366;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: white;
+  }
+  
+  
+  
+
+  .table-atividades {
+    width: 100%;
+    margin: auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 2px solid #003366;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: white;
+  }
+  
+  
+  
+  thead th {
+    color: white; /* Texto branco apenas no cabeçalho */
+    text-align: center;
+    background-color: #003366;
+  }
+  
+  th, td {
+    padding: 10px;
+    border-bottom: 1px solid #294c72;
+    border-right: 1px solid #294c72;
+    text-align: center;
+    color: black;
+    background-color: white; /* Garante fundo branco nas células */
+  }
+  
+  td:last-child, th:last-child {
+    border-right: none; /* Remove linha da última coluna */
+  }
+
+  .btn-group {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+  
+  .btn-group button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: bold;
+    background-color: #1e3765;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-group button:hover {
+    background-color: #294c72;
+  }
+
+  .perfil-info {
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border: 2px solid #1e3765;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 0 10px rgba(30, 55, 101, 0.1);
+  color: #1e3765;
+  font-size: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.perfil-info p {
+  margin: 0;
+}
+
+.perfil-info span {
+  font-weight: bold;
+  color: #003366;
+}
+
+.perfil-info button {
+  background-color: #1e3765;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  align-self: flex-end;
+  transition: background-color 0.3s ease;
+}
+
+.perfil-info button:hover {
+  background-color: #294c72;
+}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Avaliação da Atividade</title>
+  <link rel="stylesheet" href="PlataformaCoordenador.css">
+  <script defer src="Menu.js"></script>
+</head>
+<body>
+
+  <div id="menu-container"></div>
+
+  <form class="form-avaliacao" id="formAvaliacao" method="POST" action="salvar_avaliacao.php">
+    <h2>Avaliação da Atividade</h2>
+
+    <input type="hidden" name="atividade_id" id="atividade_id">
+
+    <div class="info-text"><span>Aluno:</span> <span id="nomeAluno">Carregando...</span></div>
+    <div class="info-text"><span>Categoria:</span> <span id="categoria">Carregando...</span></div>
+    <div class="info-text"><span>Descrição:</span> <span id="descricao">Carregando...</span></div>
+    <div class="info-text"><span>Resumo:</span> <span id="resumo">Carregando...</span></div>
+    <div class="info-text"><span>Horas solicitadas:</span> <span id="horas">Carregando...</span></div>
+    <div class="info-text"><span>Documento:</span> <a id="linkDocumento" href="#" target="_blank">Visualizar Comprovante</a></div>
+
+    <hr>
+
+    <div class="form-group">
+      <label for="deferir">Deferir:</label>
+      <select name="deferir" id="deferir" required>
+        <option value="">Selecione</option>
+        <option value="Aprovado">Sim</option>
+        <option value="Rejeitado">Não</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="horas_aprovadas">Horas equivalentes:</label>
+      <input type="number" id="horas_aprovadas" name="horas_aprovadas" min="0" max="100" required>
+    </div>
+
+    <div class="form-group">
+      <label for="observacoes">Observações:</label>
+      <textarea name="observacoes" id="observacoes" placeholder="Digite aqui sua justificativa..."></textarea>
+    </div>
+
+    <div class="submit-button">
+      <button type="submit">Enviar Avaliação</button>
+    </div>
+  </form>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const atividadeId = urlParams.get('id');
+
+      if (!atividadeId) {
+        alert("ID da atividade não fornecido.");
+        return;
+      }
+
+      fetch(`../../BackEnd/Coordenador/Avaliar_atividade.php?id=${atividadeId}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const atividade = data.atividade;
+            document.getElementById("atividade_id").value = atividade.Id;
+            document.getElementById("nomeAluno").textContent = atividade.nome_aluno;
+            document.getElementById("categoria").textContent = atividade.categoria;
+            document.getElementById("descricao").textContent = atividade.Descricao;
+            document.getElementById("resumo").textContent = atividade.Resumo; // <-- adicionado
+            document.getElementById("horas").textContent = `${atividade.CargaHoraria} horas`;
+            document.getElementById("linkDocumento").href = `/tcc-horas-complementares/uploadsAtividades/${atividade.ArquivoComprovante}`;
+          }
+          else {
+            alert(data.mensagem || "Erro ao buscar dados.");
+          }
+        })
+        .catch(error => {
+          console.error("Erro ao carregar os dados:", error);
+          alert("Erro ao carregar os dados da atividade.");
+        });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Listagem de Alunos</title>
+  <link rel="stylesheet" href="PlataformaCoordenador.css" />
+  <link rel="stylesheet" href="Listar_coordenadores-cursos.css" />
+  <script defer src="Menu.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      carregarAlunos();
+    });
+
+    function carregarAlunos() {
+  fetch('/tcc-horas-complementares/BackEnd/Coordenador/listar_alunos.php')
+    .then(response => {
+      console.log("Status da resposta:", response.status);
+      if (!response.ok) {
+        throw new Error('Erro ao carregar os alunos.');
+      }
+      return response.json();
+    })
+
+        .then(data => {
+          const container = document.getElementById('lista-alunos');
+          container.innerHTML = '';
+
+          if (!Array.isArray(data) || data.length === 0) {
+            container.innerHTML = '<p>Nenhum aluno cadastrado.</p>';
+            return;
+          }
+
+          const tabela = document.createElement('table');
+          tabela.innerHTML = `
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>RA</th>
+                <th>Curso</th>
+                <th>Ano de Início</th>
+                <th>E-mail</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${data.map(aluno => `
+                <tr>
+                  <td>${aluno.Id}</td>
+                  <td>${aluno.Nome}</td>
+                  <td>${aluno.RA}</td>
+                  <td>${aluno.Curso}</td>
+                  <td>${aluno.Ano_inicio}</td>
+                  <td>${aluno.email}</td>
+                  <td>
+                    <div class="btn-group">
+                      <button onclick="editarAluno(${aluno.Id})">✏️ Editar</button>
+                      <button onclick="excluirAluno(${aluno.Id})">🗑️ Excluir</button>
+                    </div>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          `;
+          container.appendChild(tabela);
+        })
+        .catch(error => {
+          console.error("Erro no fetch:", error);
+          document.getElementById('lista-alunos').innerHTML =
+            `<p style="color:red;">Erro ao carregar alunos: ${error.message}</p>`;
+        });
+    }
+
+    function editarAluno(id) {
+      window.location.href = 'Editar_aluno.html?id=' + id;
+    }
+
+    function excluirAluno(id) {
+      if (confirm("Tem certeza que deseja excluir este aluno?")) {
+        fetch(`/tcc-horas-complementares/BackEnd/Coordenador/Excluir_aluno.php?id=${id}`, {
+          method: 'DELETE'
+        })
+        .then(response => response.text())
+        .then(msg => {
+          alert(msg);
+          carregarAlunos();
+        })
+        .catch(err => {
+          alert("Erro ao excluir: " + err.message);
+        });
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="menu-container"></div>
+
+  <div class="container-cursos">
+    <h2>Alunos Cadastrados</h2>
+    <button class="add-button" onclick="window.location.href='Cad_aluno.html'">➕ Cadastrar Novo Aluno</button>
+
+    <div id="lista-alunos"></div>
+  </div>
+</body>
+</html>
