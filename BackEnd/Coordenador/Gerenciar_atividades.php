@@ -10,9 +10,11 @@ SELECT
     a.Curso,
     a.Ano_inicio,
     IFNULL(ac.CargaHoraria, 0) AS CargaHoraria,
-    IFNULL(ac.Status, 'Pendente') AS Status
+    IFNULL(ac.Status, 'Pendente') AS Status,
+    IFNULL(av.HorasAprovadas, 0) AS HorasAprovadas
 FROM aluno a
 LEFT JOIN atividadecomplementar ac ON a.Id = ac.AlunoId
+LEFT JOIN avaliacaoatividade av ON ac.Id = av.AtividadeComplementarId
 ";
 
 $result = $conn->query($sql);
@@ -45,4 +47,3 @@ echo json_encode([
     "Ano_inicio" => extrair($anos, 'Ano_inicio'),
     "coordenadores" => extrair($coordenadores, 'Nome')
 ]);
-?>

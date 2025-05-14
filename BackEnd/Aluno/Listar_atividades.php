@@ -19,10 +19,13 @@ $sql = "
         ac.Resumo,
         ac.ArquivoComprovante,
         ac.CargaHoraria,
-        ac.Status
+        ac.Status,
+        ac.ObservacaoCoordenador,
+        aa.HorasAprovadas
     FROM atividadecomplementar ac
     JOIN atividade_categoria ca ON ac.CategoriaAtividadeId = ca.Id
     JOIN categoria cat ON ca.CategoriaId = cat.Id
+    LEFT JOIN avaliacaoatividade aa ON aa.AtividadeComplementarId = ac.Id
     WHERE ac.AlunoId = ?
     ORDER BY ac.Id DESC
 ";
@@ -37,6 +40,7 @@ while ($row = $result->fetch_assoc()) {
     $atividades[] = $row;
 }
 
-header('Content-Type: application/json');
-echo json_encode($atividades);
-?>
+// Retorno correto no formato esperado pelo JavaScript
+echo json_encode([
+    "atividades" => $atividades
+]);
