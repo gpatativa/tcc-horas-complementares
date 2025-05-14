@@ -23,15 +23,10 @@
     right: 0;
     z-index: 1000;          /* garante que fique acima do conteúdo */
   }
-
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: white;
-    font-weight: bold;
-    font-size: 1.2rem; /* Aumenta o tamanho da fonte */
-  }
+.logo {
+    width: 150px;
+    margin-bottom: 0px;
+}
   
   
   .menu a {

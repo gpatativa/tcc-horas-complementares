@@ -4,7 +4,10 @@ body {
     margin: 0;
 }
 
-
+.logo {
+    width: 210px;
+    margin-bottom: 0px;
+}
 .menu-lateral {
     width: 210px;
     background-color: #1e3765;
