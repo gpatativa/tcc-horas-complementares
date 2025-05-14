@@ -17,7 +17,6 @@
 
     <button class="botao-principal" onclick="location.href='Cad_atividade.php'">Cadastrar atividade</button>
 
-
     <div class="tabela-container">
       <h2>Atividades Cadastradas</h2>
       <table class="table-atividades">
@@ -30,6 +29,7 @@
             <th>Horas solicitadas</th>
             <th>Horas concedidas</th>
             <th>Status</th>
+            <th>Observação</th>
             <th>Opções</th>
           </tr>
         </thead>
@@ -46,8 +46,13 @@
         .then(res => res.json())
         .then(data => {
           const tbody = document.getElementById('corpo-tabela');
+          const atividades = Array.isArray(data) ? data : data.atividades;
 
-          data.forEach(atividade => {
+          if (!atividades || !Array.isArray(atividades)) {
+            throw new Error("Formato de dados inválido.");
+          }
+
+          atividades.forEach(atividade => {
             const linha = document.createElement('tr');
 
             linha.innerHTML = `
@@ -56,11 +61,11 @@
               <td>${atividade.Resumo}</td>
               <td><a href="../../UploadsAtividades/${atividade.ArquivoComprovante}" target="_blank">
                 ${atividade.ArquivoComprovante}
-              </a>
-              </td>
+              </a></td>
               <td>${atividade.CargaHoraria}</td>
-              <td>-</td>
+              <td>${atividade.HorasAprovadas || '-'}</td>
               <td>${atividade.Status}</td>
+              <td>${atividade.ObservacaoCoordenador || '-'}</td>
               <td>
                 <div class="btn-group">
                   <button onclick="editarAtividade(${atividade.Id})">✏️ Editar</button>

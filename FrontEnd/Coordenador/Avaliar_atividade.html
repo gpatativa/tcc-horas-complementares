@@ -11,7 +11,7 @@
 
   <div id="menu-container"></div>
 
-  <form class="form-avaliacao" id="formAvaliacao" method="POST" action="salvar_avaliacao.php">
+  <form class="form-avaliacao" id="formAvaliacao">
     <h2>Avaliação da Atividade</h2>
 
     <input type="hidden" name="atividade_id" id="atividade_id">
@@ -68,11 +68,10 @@
             document.getElementById("nomeAluno").textContent = atividade.nome_aluno;
             document.getElementById("categoria").textContent = atividade.categoria;
             document.getElementById("descricao").textContent = atividade.Descricao;
-            document.getElementById("resumo").textContent = atividade.Resumo; // <-- adicionado
+            document.getElementById("resumo").textContent = atividade.Resumo;
             document.getElementById("horas").textContent = `${atividade.CargaHoraria} horas`;
             document.getElementById("linkDocumento").href = `/tcc-horas-complementares/uploadsAtividades/${atividade.ArquivoComprovante}`;
-          }
-          else {
+          } else {
             alert(data.mensagem || "Erro ao buscar dados.");
           }
         })
@@ -80,6 +79,28 @@
           console.error("Erro ao carregar os dados:", error);
           alert("Erro ao carregar os dados da atividade.");
         });
+
+      // Envio do formulário via fetch
+      const form = document.getElementById('formAvaliacao');
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+
+        fetch('../../BackEnd/Coordenador/salvar_avaliacao.php', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.text())
+        .then(mensagem => {
+          alert(mensagem);
+          window.location.href = 'Gerenciar_atividades.html'; // redireciona após sucesso
+        })
+        .catch(error => {
+          console.error("Erro ao salvar avaliação:", error);
+          alert("Erro ao salvar avaliação.");
+        });
+      });
     });
   </script>
 

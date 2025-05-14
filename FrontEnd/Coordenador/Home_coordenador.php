@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (!isset($_SESSION['usuario_tipo']) || $_SESSION['usuario_tipo'] !== 'coordenador') {
+    header("Location: ../Login/TelaDeLogin.html");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
