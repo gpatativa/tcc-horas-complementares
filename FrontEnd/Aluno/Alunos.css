@@ -247,3 +247,16 @@ h1 {
 .perfil-info button:hover {
   background-color: #294c72;
 }
+
+.horas-container {
+  margin: 20px 0;
+  background-color: #f3f3f3;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.horas-container h3 {
+  margin: 0;
+  color: #333;
+}
