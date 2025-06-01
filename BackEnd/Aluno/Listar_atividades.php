@@ -2,7 +2,10 @@
 session_start();
 include('../conexao.php');
 
-// Verifica se a sessão do aluno está ativa
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+// Verificação de sessão
 if (!isset($_SESSION['usuario_id']) || $_SESSION['usuario_tipo'] !== 'aluno') {
     http_response_code(403);
     echo json_encode(['erro' => 'Sessão inválida. Faça login novamente.']);
@@ -11,6 +14,7 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['usuario_tipo'] !== 'aluno') {
 
 $alunoId = $_SESSION['usuario_id'];
 
+// Consulta das atividades do aluno
 $sql = "
     SELECT 
         ac.Id,
@@ -20,12 +24,12 @@ $sql = "
         ac.ArquivoComprovante,
         ac.CargaHoraria,
         ac.Status,
-        ac.ObservacaoCoordenador,
-        aa.HorasAprovadas
+        COALESCE(av.HorasAprovadas, '-') AS HorasAprovadas,
+        COALESCE(av.Observacao, '-') AS ObservacaoCoordenador
     FROM atividadecomplementar ac
     JOIN atividade_categoria ca ON ac.CategoriaAtividadeId = ca.Id
     JOIN categoria cat ON ca.CategoriaId = cat.Id
-    LEFT JOIN avaliacaoatividade aa ON aa.AtividadeComplementarId = ac.Id
+    LEFT JOIN avaliacaoatividade av ON ac.Id = av.AtividadeComplementarId
     WHERE ac.AlunoId = ?
     ORDER BY ac.Id DESC
 ";
@@ -40,7 +44,18 @@ while ($row = $result->fetch_assoc()) {
     $atividades[] = $row;
 }
 
-// Retorno correto no formato esperado pelo JavaScript
+// Consulta da soma armazenada no campo fixo
+$sqlTotal = "SELECT TotalHorasAprovadas FROM aluno WHERE Id = ?";
+$stmtTotal = $conn->prepare($sqlTotal);
+$stmtTotal->bind_param("i", $alunoId);
+$stmtTotal->execute();
+$resultTotal = $stmtTotal->get_result();
+$rowTotal = $resultTotal->fetch_assoc();
+$totalHoras = $rowTotal['TotalHorasAprovadas'] ?? 0;
+
+// Retorno em JSON
 echo json_encode([
-    "atividades" => $atividades
+    'atividades' => $atividades,
+    'totalHoras' => intval($totalHoras)
 ]);
+?>

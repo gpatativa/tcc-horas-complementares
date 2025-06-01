@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 13, 2025 at 10:24 PM
+-- Generation Time: Jun 01, 2025 at 09:52 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -34,18 +34,19 @@ CREATE TABLE `aluno` (
   `Curso` varchar(255) NOT NULL,
   `Ano_inicio` varchar(50) NOT NULL,
   `Senha` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL
+  `email` varchar(255) NOT NULL,
+  `TotalHorasAprovadas` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `aluno`
 --
 
-INSERT INTO `aluno` (`Id`, `Nome`, `RA`, `Curso`, `Ano_inicio`, `Senha`, `email`) VALUES
-(1, 'Gustavo Oliveira Patativa', '0766231', 'Tads', '2023', '$2y$10$Xju1jLhWCAVc/s3xqT5uRO0DXpgpCN2vX9mjlkOQ8cooGUstkCLNW', 'Gustavo@gmail.com'),
-(4, 'Mariana Pedroso', '741852963', 'tads', '2023', '$2y$10$htD4kU0eG/BM5dPgcwJVCuiW7.7rmIiNE8ICM/VwEsmL6hffZi8ve', 'teste@teste.com'),
-(5, 'testando novamente', '987654321', 'TADS', '2025', '$2y$10$/QUS80iEpuWw3SieoDhXTuX2.4J3ZCwz8.fUwqDA/14CpKXcQwxHq', 'teste@teste.com'),
-(6, 'Gustavo', '07662312', 'Tads', '2034', '$2y$10$CQyk/dst7AVnAj/uWzPHjueOQnECpwYFx1P9t9i0NQ6evcWgvIl2a', 'patativa1301@gmail.com');
+INSERT INTO `aluno` (`Id`, `Nome`, `RA`, `Curso`, `Ano_inicio`, `Senha`, `email`, `TotalHorasAprovadas`) VALUES
+(1, 'Gustavo Oliveira Patativa', '0766231', 'Tads', '2023', '$2y$10$Xju1jLhWCAVc/s3xqT5uRO0DXpgpCN2vX9mjlkOQ8cooGUstkCLNW', 'Gustavo@gmail.com', 0),
+(4, 'Mariana Pedroso', '741852963', 'tads', '2023', '$2y$10$htD4kU0eG/BM5dPgcwJVCuiW7.7rmIiNE8ICM/VwEsmL6hffZi8ve', 'teste@teste.com', 25),
+(5, 'testando novamente', '987654321', 'TADS', '2025', '$2y$10$/QUS80iEpuWw3SieoDhXTuX2.4J3ZCwz8.fUwqDA/14CpKXcQwxHq', 'teste@teste.com', 0),
+(6, 'Gustavo', '07662312', 'Tads', '2034', '$2y$10$CQyk/dst7AVnAj/uWzPHjueOQnECpwYFx1P9t9i0NQ6evcWgvIl2a', 'patativa1301@gmail.com', 103);
 
 -- --------------------------------------------------------
 
@@ -61,6 +62,7 @@ CREATE TABLE `atividadecomplementar` (
   `Resumo` text NOT NULL,
   `Data` date NOT NULL,
   `CargaHoraria` int(11) NOT NULL,
+  `HorasAprovadas` int(11) DEFAULT 0,
   `ArquivoComprovante` varchar(255) NOT NULL,
   `Status` enum('Pendente','Aprovado','Rejeitado') DEFAULT 'Pendente',
   `ObservacaoCoordenador` text DEFAULT NULL
@@ -70,13 +72,20 @@ CREATE TABLE `atividadecomplementar` (
 -- Dumping data for table `atividadecomplementar`
 --
 
-INSERT INTO `atividadecomplementar` (`Id`, `AlunoId`, `CategoriaAtividadeId`, `Descricao`, `Resumo`, `Data`, `CargaHoraria`, `ArquivoComprovante`, `Status`, `ObservacaoCoordenador`) VALUES
-(5, 1, 8, 'Extensão - Organização e ministrante de cursos', 'Testando', '2025-04-22', 20, 'comprovante_6806ef28a02713.13387314.pdf', 'Aprovado', 'teste'),
-(12, 4, 7, 'Execução de trabalho de projeto docente', 'uysgdkcbfs', '2025-05-09', 27, 'Curriculo - Mariana Leonardo de Souza Pedroso_3.pdf', 'Pendente', NULL),
-(13, 4, 5, 'Ministrante de cursos organizados por docentes', 'kajhbfkwjce', '2025-05-09', 200, 'Curriculum Vitae - Mariana Leonardo de Souza Pedroso_1.pdf', 'Pendente', NULL),
-(14, 4, 3, 'Execução de trabalho de projeto docente', 'uioadumc', '2025-05-09', 600, 'Curriculo - Mariana Leonardo de Souza Pedroso_4.pdf', 'Pendente', NULL),
-(15, 5, 5, 'Ministrante de cursos organizados por docentes', 'Resumoooo testando o cadastro', '2025-05-09', 20, 'ComprovanteEscolaridade_Mariana_4.pdf', 'Pendente', NULL),
-(16, 4, 7, 'Execução de trabalho de projeto docente', 'Testando com a mãe', '2025-05-09', 8000, 'ComprovanteEscolaridade_Mariana_5.pdf', 'Pendente', NULL);
+INSERT INTO `atividadecomplementar` (`Id`, `AlunoId`, `CategoriaAtividadeId`, `Descricao`, `Resumo`, `Data`, `CargaHoraria`, `HorasAprovadas`, `ArquivoComprovante`, `Status`, `ObservacaoCoordenador`) VALUES
+(5, 1, 8, 'Extensão - Organização e ministrante de cursos', 'Testando', '2025-04-22', 20, 2, 'comprovante_6806ef28a02713.13387314.pdf', 'Aprovado', 'tes'),
+(12, 4, 7, 'Execução de trabalho de projeto docente', 'uysgdkcbfs', '2025-05-09', 27, 0, 'Curriculo - Mariana Leonardo de Souza Pedroso_3.pdf', 'Rejeitado', 'teste'),
+(13, 4, 5, 'Ministrante de cursos organizados por docentes', 'kajhbfkwjce', '2025-05-09', 200, 22, 'Curriculum Vitae - Mariana Leonardo de Souza Pedroso_1.pdf', 'Aprovado', 'teste'),
+(14, 4, 3, 'Execução de trabalho de projeto docente', 'uioadumc', '2025-05-09', 600, 22, 'Curriculo - Mariana Leonardo de Souza Pedroso_4.pdf', 'Aprovado', 'teste'),
+(15, 5, 5, 'Ministrante de cursos organizados por docentes', 'Resumoooo testando o cadastro', '2025-05-09', 20, 0, 'ComprovanteEscolaridade_Mariana_4.pdf', 'Rejeitado', 'teste 0'),
+(16, 4, 7, 'Execução de trabalho de projeto docente', 'Testando com a mãe', '2025-05-09', 8000, 3, 'ComprovanteEscolaridade_Mariana_5.pdf', 'Aprovado', 'test'),
+(17, 6, 7, 'Execução de trabalho de projeto docente', 'Teste', '2025-05-14', 24, 20, 'Currículo - Gabriel Oliveira Gomes.pdf', 'Aprovado', 'teste'),
+(18, 6, 3, 'Execução de trabalho de projeto docente', 'teste', '2025-05-14', 22, 13, 'Currículo - Gabriel Oliveira Gomes_1.pdf', 'Rejeitado', 'burro pra caramba'),
+(19, 6, 1, 'Autoria e execução de projetos', 'teste', '2025-05-14', 13, 0, 'Currículo - Gabriel Oliveira Gomes_2.pdf', 'Pendente', NULL),
+(20, 6, 3, 'Execução de trabalho de projeto docente', 'teste', '2025-05-14', 23, 0, 'Currículo - Gabriel Oliveira Gomes_3.pdf', 'Pendente', NULL),
+(21, 6, 1, 'Autoria e execução de projetos', 'ATIVIDADE TESTE1', '2025-05-14', 50, 20, 'Sala23-28-04-19-30-Qualidade_1.pdf', 'Aprovado', '50 pode não'),
+(22, 6, 1, 'Autoria e execução de projetos', 'teste', '2025-05-28', 30, 23, 'Compartilhar Projeto no Tinkercad.pdf', 'Aprovado', 'Correção das horas\r\n'),
+(23, 6, 3, 'Execução de trabalho de projeto docente', 'teste', '2025-06-01', 1233, 40, 'Currículo - Gabriel Oliveira Gomes_4.pdf', 'Aprovado', 'Para de ser burro moleque');
 
 -- --------------------------------------------------------
 
@@ -119,6 +128,23 @@ CREATE TABLE `avaliacaoatividade` (
   `Observacao` text DEFAULT NULL,
   `HorasAprovadas` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `avaliacaoatividade`
+--
+
+INSERT INTO `avaliacaoatividade` (`Id`, `AtividadeComplementarId`, `CoordenadorId`, `DataAvaliacao`, `Status`, `Observacao`, `HorasAprovadas`) VALUES
+(1, 5, 9, '2025-05-13', 'Aprovado', 'teste', 0),
+(2, 12, 9, '2025-05-13', 'Rejeitado', 'teste', 0),
+(3, 13, 9, '2025-05-13', 'Aprovado', 'teste', 0),
+(6, 14, 9, '2025-05-13', 'Aprovado', 'teste', 22),
+(7, 16, 9, '2025-05-13', 'Aprovado', 'test', 3),
+(8, 15, 9, '2025-05-13', 'Rejeitado', 'teste 0', 0),
+(9, 17, 9, '2025-05-14', 'Aprovado', 'teste', 20),
+(10, 18, 9, '2025-05-14', 'Rejeitado', 'burro pra caramba', 13),
+(11, 21, 9, '2025-05-14', 'Aprovado', '50 pode não', 20),
+(12, 22, 8, '2025-05-28', 'Aprovado', 'Correção das horas\r\n', 23),
+(13, 23, 8, '2025-06-01', 'Aprovado', 'Para de ser burro moleque', 40);
 
 -- --------------------------------------------------------
 
@@ -258,7 +284,7 @@ ALTER TABLE `aluno`
 -- AUTO_INCREMENT for table `atividadecomplementar`
 --
 ALTER TABLE `atividadecomplementar`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `atividade_categoria`
@@ -270,7 +296,7 @@ ALTER TABLE `atividade_categoria`
 -- AUTO_INCREMENT for table `avaliacaoatividade`
 --
 ALTER TABLE `avaliacaoatividade`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `categoria`

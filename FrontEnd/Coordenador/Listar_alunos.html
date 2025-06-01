@@ -14,15 +14,13 @@
     });
 
     function carregarAlunos() {
-  fetch('/tcc-horas-complementares/BackEnd/Coordenador/listar_alunos.php')
-    .then(response => {
-      console.log("Status da resposta:", response.status);
-      if (!response.ok) {
-        throw new Error('Erro ao carregar os alunos.');
-      }
-      return response.json();
-    })
-
+      fetch('/tcc-horas-complementares/BackEnd/Coordenador/listar_alunos.php')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Erro ao carregar os alunos.');
+          }
+          return response.json();
+        })
         .then(data => {
           const container = document.getElementById('lista-alunos');
           container.innerHTML = '';
@@ -42,6 +40,7 @@
                 <th>Curso</th>
                 <th>Ano de Início</th>
                 <th>E-mail</th>
+                <th>Horas Aprovadas</th>
                 <th>Ações</th>
               </tr>
             </thead>
@@ -54,6 +53,7 @@
                   <td>${aluno.Curso}</td>
                   <td>${aluno.Ano_inicio}</td>
                   <td>${aluno.email}</td>
+                  <td>${aluno.TotalHorasAprovadas ?? 0}</td>
                   <td>
                     <div class="btn-group">
                       <button onclick="editarAluno(${aluno.Id})">✏️ Editar</button>
