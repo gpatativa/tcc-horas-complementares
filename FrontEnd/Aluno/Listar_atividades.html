@@ -17,7 +17,6 @@
 
     <button class="botao-principal" onclick="location.href='Cad_atividade.php'">Cadastrar atividade</button>
 
-    <!-- Soma de horas -->
     <div class="horas-container">
       <h3>Total de Horas Aprovadas: <span id="total-horas">0</span></h3>
     </div>
@@ -39,7 +38,6 @@
           </tr>
         </thead>
         <tbody id="corpo-tabela">
-          <!-- Conteúdo dinâmico -->
         </tbody>
       </table>
     </div>
@@ -48,12 +46,7 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       fetch('../../BackEnd/Aluno/Listar_atividades.php')
-        .then(res => {
-          if (!res.ok) {
-            throw new Error('Erro na conexão com o servidor.');
-          }
-          return res.json();
-        })
+        .then(res => res.json())
         .then(data => {
           if (data.erro) {
             alert(data.erro);
@@ -61,13 +54,11 @@
           }
 
           const tbody = document.getElementById('corpo-tabela');
-          const atividades = Array.isArray(data.atividades) ? data.atividades : [];
+          const atividades = data.atividades ?? [];
           const totalHoras = data.totalHoras ?? 0;
 
-          // Atualiza o total de horas
           document.getElementById('total-horas').innerText = totalHoras;
 
-          // Popula a tabela
           atividades.forEach(atividade => {
             const linha = document.createElement('tr');
 

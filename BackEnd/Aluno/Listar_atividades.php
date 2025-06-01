@@ -2,12 +2,10 @@
 session_start();
 include('../conexao.php');
 
-// Ativa exibição de erros (fundamental para debug)
 ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Verifica sessão do aluno
+// Verificação de sessão
 if (!isset($_SESSION['usuario_id']) || $_SESSION['usuario_tipo'] !== 'aluno') {
     http_response_code(403);
     echo json_encode(['erro' => 'Sessão inválida. Faça login novamente.']);
@@ -16,7 +14,7 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['usuario_tipo'] !== 'aluno') {
 
 $alunoId = $_SESSION['usuario_id'];
 
-// ✅ Query de atividades (corrigida sem ambiguidade)
+// Consulta das atividades do aluno
 $sql = "
     SELECT 
         ac.Id,
@@ -46,22 +44,16 @@ while ($row = $result->fetch_assoc()) {
     $atividades[] = $row;
 }
 
-// ✅ Query da soma das horas aprovadas (corrigida com alias)
-$sqlSoma = "
-    SELECT SUM(av.HorasAprovadas) AS TotalHoras 
-    FROM avaliacaoatividade av
-    INNER JOIN atividadecomplementar ac ON av.AtividadeComplementarId = ac.Id
-    WHERE ac.AlunoId = ? AND av.Status = 'Aprovado'
-";
+// Consulta da soma armazenada no campo fixo
+$sqlTotal = "SELECT TotalHorasAprovadas FROM aluno WHERE Id = ?";
+$stmtTotal = $conn->prepare($sqlTotal);
+$stmtTotal->bind_param("i", $alunoId);
+$stmtTotal->execute();
+$resultTotal = $stmtTotal->get_result();
+$rowTotal = $resultTotal->fetch_assoc();
+$totalHoras = $rowTotal['TotalHorasAprovadas'] ?? 0;
 
-$stmtSoma = $conn->prepare($sqlSoma);
-$stmtSoma->bind_param("i", $alunoId);
-$stmtSoma->execute();
-$resultSoma = $stmtSoma->get_result();
-$rowSoma = $resultSoma->fetch_assoc();
-$totalHoras = $rowSoma['TotalHoras'] ?? 0;
-
-// ✅ Retorno JSON
+// Retorno em JSON
 echo json_encode([
     'atividades' => $atividades,
     'totalHoras' => intval($totalHoras)
