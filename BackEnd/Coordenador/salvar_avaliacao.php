@@ -15,7 +15,7 @@ $status = $_POST['deferir'] ?? null;
 $horasAprovadas = $_POST['horas_aprovadas'] ?? null;
 $observacao = $_POST['observacoes'] ?? '';
 $coordenadorId = $_SESSION['usuario_id']; // Correto aqui
-$dataAvaliacao = date('Y-m-d H:i:s');
+$dataAvaliacao = date('Y-m-d');
 
 // Validações básicas
 if (!$atividadeId || !$status || $horasAprovadas === null) {
@@ -23,25 +23,34 @@ if (!$atividadeId || !$status || $horasAprovadas === null) {
     exit;
 }
 
-// Atualiza a atividade com o status e horas aprovadas
+// Atualiza a atividade com o novo status e observação
 $stmtUpdate = $conn->prepare("
     UPDATE atividadecomplementar 
-    SET Status = ?, HorasAprovadas = ?, ObservacaoCoordenador = ? 
+    SET Status = ?, ObservacaoCoordenador = ? 
     WHERE Id = ?
 ");
-$stmtUpdate->bind_param("sisi", $status, $horasAprovadas, $observacao, $atividadeId);
+
+if (!$stmtUpdate) {
+    die("Erro no prepare do UPDATE: " . $conn->error);
+}
+
+$stmtUpdate->bind_param("ssi", $status, $observacao, $atividadeId);
 $stmtUpdate->execute();
 
-// Insere registro na tabela de avaliação
+// Insere registro na tabela de avaliação com as horas aprovadas
 $stmtInsert = $conn->prepare("
     INSERT INTO avaliacaoatividade 
     (AtividadeComplementarId, CoordenadorId, DataAvaliacao, Status, Observacao, HorasAprovadas) 
     VALUES (?, ?, ?, ?, ?, ?)
 ");
+
+if (!$stmtInsert) {
+    die("Erro no prepare do INSERT: " . $conn->error);
+}
+
 $stmtInsert->bind_param("iisssi", $atividadeId, $coordenadorId, $dataAvaliacao, $status, $observacao, $horasAprovadas);
 $stmtInsert->execute();
 
-// Redireciona de volta para a dashboard ou mostra mensagem
 echo "<script>alert('Avaliação salva com sucesso!'); window.location.href='Home_coordenador.php';</script>";
 exit;
 ?>
