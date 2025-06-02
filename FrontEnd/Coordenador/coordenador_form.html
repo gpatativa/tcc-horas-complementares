@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<<<<<<< HEAD
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Coordenador</title>
@@ -21,15 +20,11 @@
       <input type="text" id="nome" name="nome" required>
 
       <label for="ra">RA:</label>
-      <input type="text" id="ra" name="ra" required>
+      <input type="number" id="ra" name="ra" required>
 
       <label for="email">E-mail:</label>
       <input type="email" id="email" name="email" required>
 
-      <label for="curso">Curso:</label>
-      <select id="curso" name="curso" required>
-          <option value="">Selecione um curso</option>
-      </select>
 
       <label for="senha">Senha:</label>
       <input type="password" id="senha" name="senha" required>
@@ -70,20 +65,6 @@
       });
     });
 
-    fetch("../../BackEnd/Coordenador/Listar_cursos.php")
-    .then(response => response.json())
-    .then(data => {
-        const select = document.getElementById("curso");
-        data.forEach(curso => {
-            const option = document.createElement("option");
-            option.value = curso.Nome_curso;
-            option.textContent = curso.Nome_curso;
-            select.appendChild(option);
-        });
-    })
-    .catch(error => {
-        console.error("Erro ao carregar cursos:", error);
-    });
   </script>
 </body>
 </html>

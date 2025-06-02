@@ -14,7 +14,7 @@
             margin: 30px auto;
             background: #fff;
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 10px;
             box-shadow: 0px 0px 10px #00000010;
             margin-left: calc(220px + (100% - 220px - 900px) / 2);
         }
@@ -58,8 +58,21 @@
             margin: 30px auto;
             background: #fff;
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 10px;
             box-shadow: 0px 0px 10px #00000010;
             margin-left: calc(220px + (100% - 220px - 900px) / 2);
         }
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.filtro-bloco {
+  display: flex;
+  flex-direction: column;
+}
+
         

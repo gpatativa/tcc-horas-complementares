@@ -21,19 +21,24 @@
       <h3>Total de Horas Aprovadas: <span id="total-horas">0</span></h3>
     </div>
 
+    <div class="info-box-rejeicao">
+      <strong>Atenção:</strong> Caso a atividade seja <u>rejeitada</u>, será necessário realizar um novo cadastro, 
+      ajustando conforme as observações do coordenador.
+    </div>
+
+
     <div class="tabela-container">
-      <h2>Atividades Cadastradas</h2>
+      <!-- <h2>Atividades Cadastradas</h2> -->
       <table class="table-atividades">
         <thead>
           <tr>
             <th>Categoria</th>
             <th>Descrição</th>
-            <th>Resumo</th>
             <th>Arquivo</th>
             <th>Horas solicitadas</th>
             <th>Horas concedidas</th>
+            <th>Observações do Coordenador</th>
             <th>Status</th>
-            <th>Observação</th>
             <th>Opções</th>
           </tr>
         </thead>
@@ -65,14 +70,13 @@
             linha.innerHTML = `
               <td>${atividade.CategoriaNome}</td>
               <td>${atividade.Descricao}</td>
-              <td>${atividade.Resumo}</td>
               <td><a href="../../UploadsAtividades/${atividade.ArquivoComprovante}" target="_blank">
                 ${atividade.ArquivoComprovante}
               </a></td>
               <td>${atividade.CargaHoraria}</td>
               <td>${atividade.HorasAprovadas}</td>
-              <td>${atividade.Status}</td>
               <td>${atividade.ObservacaoCoordenador}</td>
+              <td>${atividade.Status}</td>
               <td>
                 <div class="btn-group">
                   <button onclick="editarAtividade(${atividade.Id})">✏️ Editar</button>

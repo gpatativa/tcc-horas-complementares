@@ -20,7 +20,6 @@ $sql = "
         ac.Id,
         cat.Categoria AS CategoriaNome,
         ca.Descricao AS Descricao,
-        ac.Resumo,
         ac.ArquivoComprovante,
         ac.CargaHoraria,
         ac.Status,

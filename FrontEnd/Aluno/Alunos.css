@@ -30,11 +30,13 @@
   
   
   .menu a {
-    color: white;
-    margin-left: 2rem;
-    text-decoration: none;
-    font-size: 1rem;
-  }
+  color: white;
+  margin-left: 2rem;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
   
   .conteudo {
   padding: 6rem 2rem 2rem 2rem; /* 6rem no topo para não cobrir o conteúdo */
@@ -135,9 +137,9 @@ h1 {
   }  
   
   .table-home {
-    width: 75%;              /* ← define uma largura menor */
-    min-width: 500px;        /* ← garante que não fique estreita demais */
-    margin: 2rem auto;       /* ← centraliza horizontalmente */
+    width: 75%;              
+    min-width: 500px;        
+    margin: 2rem auto;      
     border-collapse: separate;
     border-spacing: 0;
     border: 2px solid #003366;
@@ -145,7 +147,6 @@ h1 {
     overflow: hidden;
     background-color: white;
   }
-  
   
   
 
@@ -249,9 +250,22 @@ h1 {
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #ccc;
+  width: 300px;
 }
 
 .horas-container h3 {
   margin: 0;
   color: #333;
 }
+
+.info-box-rejeicao {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+  padding: 12px;
+  border-radius: 6px;
+  margin: 15px 0;
+  font-size: 0.95rem;
+  max-width: 600px;
+}
+

@@ -5,7 +5,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome = $_POST['nome'];
     $ra = $_POST['ra'];
     $email = $_POST['email'];
-    $curso = $_POST['curso'];
     $senha = $_POST['senha'];
 
     // Verifica se o RA já está cadastrado
@@ -26,9 +25,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $senha_hash = password_hash($senha, PASSWORD_BCRYPT);
 
     // Inserindo os dados no banco
-    $sql = "INSERT INTO Coordenador (Nome, RA, Email, Curso, Senha) VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO Coordenador (Nome, RA, Email, Senha) VALUES (?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "sssss", $nome, $ra, $email, $curso, $senha_hash);
+    mysqli_stmt_bind_param($stmt, "ssss", $nome, $ra, $email, $senha_hash);
 
     if (mysqli_stmt_execute($stmt)) {
         echo "Coordenador cadastrado com sucesso!";

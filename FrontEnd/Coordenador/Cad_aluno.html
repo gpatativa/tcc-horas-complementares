@@ -4,12 +4,42 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cadastro de Aluno</title>
-  <link rel="stylesheet" href="../Coordenador/PlataformaCoordenador.css">
+  <link rel="stylesheet" href="PlataformaCoordenador.css">
   <script defer src="Menu.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const cursoSelect = document.getElementById("curso");
+      const anoSelect = document.getElementById("Ano_inicio");
+
+      fetch("../../BackEnd/Coordenador/Listar_cursos.php")
+        .then(response => response.json())
+        .then(data => {
+          data.forEach(curso => {
+            const option = document.createElement("option");
+            option.value = curso.Nome_curso;
+            option.textContent = curso.Nome_curso;
+            cursoSelect.appendChild(option);
+          });
+        })
+        .catch(error => console.error("Erro ao carregar cursos:", error));
+
+      fetch("../../BackEnd/Coordenador/Listar_anos.php")
+        .then(response => response.json())
+        .then(data => {
+          data.forEach(ano => {
+            const option = document.createElement("option");
+            option.value = ano;
+            option.textContent = ano;
+            anoSelect.appendChild(option);
+          });
+        })
+        .catch(error => console.error("Erro ao carregar anos:", error));
+    });
+  </script>
 </head>
 <body>
 
-    <div id="menu-container"></div> 
+  <div id="menu-container"></div> 
 
   <div class="container">
     <h2>Cadastro de Aluno</h2>
@@ -23,11 +53,20 @@
       <label for="email">E-mail:</label>
       <input type="email" id="email" name="email" required>
 
-      <label for="curso">Curso:</label>
-      <input type="text" id="curso" name="curso" required>
+      <div class="filtro-bloco">
+  <label for="curso">Curso:</label>
+  <select id="curso" name="curso" required>
+    <option value="">Selecione o curso</option>
+  </select>
+</div>
 
-      <label for="Ano_inicio">Ano de início:</label>
-      <input type="number" id="Ano_inicio" name="Ano_inicio" required>
+<div class="filtro-bloco">
+  <label for="Ano_inicio">Ano de início:</label>
+  <select id="Ano_inicio" name="Ano_inicio" required>
+    <option value="">Selecione o ano</option>
+  </select>
+</div>
+
 
       <label for="senha">Senha:</label>
       <input type="password" id="senha" name="senha" placeholder="Pelo menos 8 caracteres">

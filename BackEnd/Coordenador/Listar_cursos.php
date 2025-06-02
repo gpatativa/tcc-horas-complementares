@@ -1,6 +1,7 @@
 <?php
 require_once('../conexao.php');
 
+// Consulta todos os cursos
 $resultado = mysqli_query($conn, "SELECT * FROM cursos");
 
 $cursos = [];

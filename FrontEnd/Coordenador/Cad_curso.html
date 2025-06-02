@@ -1,55 +1,91 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Curso</title>
-    
-    <link rel="stylesheet" href="Listar_coordenadores-cursos.css">
-    <link rel="stylesheet" href="PlataformaCoordenador.css">
-    <script defer src="Menu.js"></script> 
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastro de Curso</title>
+  <link rel="stylesheet" href="Listar_coordenadores-cursos.css" />
+  <link rel="stylesheet" href="PlataformaCoordenador.css" />
+  <script defer src="Menu.js"></script>
 </head>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        fetch("../../BackEnd/Coordenador/Listar_coordenadores.php") // ajuste o caminho se necessário
-            .then(response => response.json())
-            .then(data => {
-                const select = document.getElementById("Coordenador");
-                data.forEach(coordenador => {
-                    const option = document.createElement("option");
-                    option.value = coordenador.Nome;
-                    option.textContent = coordenador.Nome;
-                    select.appendChild(option);
-                });
-            })
-            .catch(error => {
-                console.error("Erro ao carregar coordenadores:", error);
-            });
-    });
-</script>
 
 <body>
+  <div id="menu-container"></div>
 
-    <div id="menu-container"></div> 
+  <div class="container">
+    <h2>Cadastro de Curso</h2>
+    <form id="form-curso">
+      <label for="Nome_curso">Nome:</label>
+      <input type="text" id="Nome_curso" name="Nome_curso" required />
 
-    <div class="container">
-        <h2>Cadastro de Curso</h2>
-        <form method="POST" action="../../BackEnd/Coordenador/Cad_curso.php">
-            <label for="Nome_curso">Nome:</label>
-            <input type="text" id="Nome_curso" name="Nome_curso" required>
-            
-            <label for="Ano_inicio">Ano de Início:</label>
-            <input type="number" id="Ano_inicio" name="Ano_inicio" placeholder="Ano em que o aluno ingressou" required>
+      <label for="Ano_inicio">Ano de Início:</label>
+      <input type="number" id="Ano_inicio" name="Ano_inicio" placeholder="Ano em que o curso iniciou" required />
 
-            <label for="Coordenador">Nome do Coordenador:</label>
-            <select id="Coordenador" name="Coordenador" required>
-                <option value="">Selecione um coordenador</option>
-            </select>
+      <div class="filtro-bloco">
+        <label for="Coordenador">Nome do Coordenador:</label>
+        <select id="Coordenador" name="Coordenador" required>
+          <option value="">Selecione um coordenador</option>
+        </select>
+      </div>
+
+      <button type="submit">Cadastrar</button>
+    </form>
+  </div>
+
+  <script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+      fetch("../../BackEnd/Coordenador/Listar_coordenadores.php")
+        .then(response => response.json())
+        .then(data => {
+          const select = document.getElementById("Coordenador");
+          data.forEach(coordenador => {
+            const option = document.createElement("option");
+            option.value = coordenador.Nome;
+            option.textContent = coordenador.Nome;
+            select.appendChild(option);
+          });
+        })
+        .catch(error => {
+          console.error("Erro ao carregar coordenadores:", error);
+        });
+    });
 
 
-            <button type="submit">Cadastrar</button>
-        </form>
-    </div>
-    <script src="Menu.js"></script>
+    document.getElementById("form-curso").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const nome = document.getElementById("Nome_curso").value.trim();
+      const ano = parseInt(document.getElementById("Ano_inicio").value);
+      const coordenador = document.getElementById("Coordenador").value;
+      const anoAtual = new Date().getFullYear();
+
+      if (!nome) return alert("O nome do curso é obrigatório.");
+      if (isNaN(ano) || ano < 2000 || ano > anoAtual)
+        return alert("O ano de início deve estar entre 2000 e " + anoAtual + ".");
+      if (!coordenador) return alert("Selecione um coordenador.");
+
+      const formData = new FormData();
+      formData.append("Nome_curso", nome);
+      formData.append("Ano_inicio", ano);
+      formData.append("Coordenador", coordenador);
+
+      fetch("../../BackEnd/Coordenador/Cad_curso.php", {
+        method: "POST",
+        body: formData
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.sucesso) {
+            window.location.href = "Listar_cursos.html";
+          } else {
+            alert(data.erro || "Erro inesperado ao cadastrar.");
+          }
+        })
+        .catch(err => {
+          alert("Erro na requisição: " + err.message);
+        });
+    });
+  </script>
 </body>
 </html>

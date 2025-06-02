@@ -9,15 +9,35 @@ body {
     margin-bottom: 0px;
 }
 .menu-lateral {
-    width: 210px;
-    background-color: #1e3765;
-    color: white;
-    height: 100vh;
-    padding: 20px;
-    position: fixed;
-    left: 0;
-    top: 0;
+  width: 210px;
+  background-color: #1e3765;
+  color: white;
+  height: 100vh;
+  padding: 20px;
+  position: fixed;
+  left: 0;
+  top: 0px;
 }
+
+.menu-lista {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin-top: 40px;
+}
+
+.sair {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background-color: #1e3765;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  width: 210px;
+}
+
 
 .menu-lateral h2 {
     text-align: center;
@@ -224,7 +244,6 @@ h1 {
   overflow: hidden;
   height: 45px;
   margin-top: 24px; /* alinha com os selects */
-  margin-top: 0 px;
 }
 
 .barra-pesquisa input {
@@ -315,15 +334,17 @@ td:last-child, th:last-child {
   }
   
   .table-home {
-    width: 75%;              /* ← define uma largura menor */
-    min-width: 500px;        /* ← garante que não fique estreita demais */
-    margin: 2rem auto;       /* ← centraliza horizontalmente */
+    width: 75%;              
+    min-width: 500px;        
+    margin: 2rem auto;      
     border-collapse: separate;
     border-spacing: 0;
     border: 2px solid #003366;
     border-radius: 10px;
     overflow: hidden;
     background-color: white;
+    vertical-align: middle;
+  border-collapse: collapse;
   }
   
   thead th {
@@ -554,4 +575,81 @@ td:last-child, th:last-child {
     color: #0033cc;
     text-decoration: underline;
   }
-  
+
+ #lista-cursos table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 2px solid #172d56; 
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: white;
+}
+
+#lista-cursos td,
+#lista-cursos th {
+  border: 0.3px solid #2b4582; 
+  padding: 10px;
+  text-align: center;
+ 
+}
+
+#lista-cursos thead {
+  background-color: #1e3765;
+  color: white;
+  border: none;
+}
+
+
+
+#lista-coordenadores table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 2px solid #172d56; 
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: white;
+}
+
+#lista-coordenadores td,
+#lista-coordenadores th {
+  border: 0.1px solid #374c7c; 
+  padding: 10px;
+  text-align: center;
+  border-width: 0.1px;
+}
+
+#lista-coordenadores thead {
+  background-color: #1e3765;
+  color: white;
+  border: none;
+}
+
+
+
+
+#lista-alunos table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 2px solid #172d56; 
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: white;
+}
+
+#lista-alunos td,
+#lista-alunos th {
+  border: 0.1px solid #374c7c; 
+  padding: 10px;
+  text-align: center;
+  border-width: 0.1px;
+}
+
+#lista-alunos thead {
+  background-color: #1e3765;
+  color: white;
+  border: none;
+}
+
