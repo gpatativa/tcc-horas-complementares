@@ -28,7 +28,7 @@
 
                     document.getElementById("Id_curso").value = data.Id_curso;
                     document.getElementById("Nome_curso").value = data.Nome_curso;
-                    document.getElementById("Quant_periodos").value = data.Quant_periodos;
+                    document.getElementById("Ano_inicio").value = data.Ano_inicio;
                     document.getElementById("Coordenador").value = data.Coordenador;
                 })
                 .catch(err => {
@@ -68,8 +68,8 @@
             <label for="Nome_curso">Nome:</label>
             <input type="text" id="Nome_curso" name="Nome_curso" required>
 
-            <label for="Quant_periodos">Quantidade de períodos:</label>
-            <input type="number" id="Quant_periodos" name="Quant_periodos" required>
+            <label for="Ano_inicio">Ano de Início:</label>
+            <input type="number" id="Ano_inicio" name="Ano_inicio" required>
 
             <label for="Coordenador">Nome do Coordenador:</label>
             <input type="text" id="Coordenador" name="Coordenador" required>
@@ -77,5 +77,6 @@
             <button type="submit">Salvar Alterações</button>
         </form>
     </div>
+    <script src="Menu.js"></script>
 </body>
 </html>

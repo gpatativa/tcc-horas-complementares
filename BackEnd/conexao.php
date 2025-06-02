@@ -1,12 +1,17 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
+$host = "localhost";
+$user = "root"; // Verifique seu usuário do MySQL
+$password = ""; // Se estiver usando XAMPP, geralmente a senha é vazia
 $database = "tccdb";
 
-$conn = mysqli_connect($servername, $username, $password, $database);
+// Criando conexão
+$conn = new mysqli($host, $user, $password, $database);
 
-if (!$conn) {
-    die("Falha na conexão: " . mysqli_connect_error());
+// Verificando conexão
+if ($conn->connect_error) {
+    die("Falha na conexão: " . $conn->connect_error);
 }
 ?>
+
+
+

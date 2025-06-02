@@ -1,44 +1,89 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+<<<<<<< HEAD
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Coordenador</title>
     <link rel="stylesheet" href="PlataformaCoordenador.css">
-    <script defer src="coordenador_form.js"></script> <!-- Adicionando JS -->
+
+    <script defer src="Menu.js"></script> 
 </head>
+
 <body>
 
-    <div class="menu-lateral">
-        <h2>Menu</h2>
-        <ul>
-            <li><a href="Home_coordenador.html">🏠 Home</a></li>
-            <li><a href="#">👤 Meu Perfil</a></li>
-            <li><a href="Gerenciar_alunos.html">📋 Gerenciar Alunos</a></li>
-            <li><a href="Listar_cursos.html">📚 Cursos</a></li>
-            <li><a href="Listar_coordenadores.html">👨🏻‍🏫 Coordenadores</a></li>
-            <li><a href="../../Login/TelaDeLogin.html">❌ Sair</a></li>
-        </ul>
-    </div>
+    <div id="menu-container"></div>
+    
+  <div class="container">
+    <h2>Cadastro de Coordenador</h2>
+    <form id="form-coordenador">
+      <label for="nome">Nome:</label>
+      <input type="text" id="nome" name="nome" required>
 
-    <div class="container">
-        <h2>Cadastro de Coordenador</h2>
-        <form method="POST" action="../../BackEnd/Coordenador/coordenador_processamento.php">
-            <label for="nome">Nome:</label>
-            <input type="text" id="nome" name="nome" required>
-            
-            <label for="ra">RA:</label>
-            <input type="text" id="ra" name="ra" required>
+      <label for="ra">RA:</label>
+      <input type="text" id="ra" name="ra" required>
 
-            <label for="curso">Curso:</label>
-            <input type="text" id="curso" name="curso" required>
+      <label for="email">E-mail:</label>
+      <input type="email" id="email" name="email" required>
 
-            <label for="senha">Senha:</label>
-            <input type="password" id="senha" name="senha" required>
-            <span id="erro-senha" class="erro-msg"></span> <!-- Exibir erro aqui -->
+      <label for="curso">Curso:</label>
+      <select id="curso" name="curso" required>
+          <option value="">Selecione um curso</option>
+      </select>
 
-            <button type="submit">Cadastrar</button>
-        </form>
-    </div>
+      <label for="senha">Senha:</label>
+      <input type="password" id="senha" name="senha" required>
+      <span id="erro-senha" class="erro-msg"></span>
+
+      <button type="submit">Cadastrar</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("form-coordenador").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const form = event.target;
+      const senha = document.getElementById("senha").value;
+
+      if (senha.length < 8) {
+        document.getElementById("erro-senha").textContent = "A senha deve ter pelo menos 8 caracteres!";
+        return;
+      } else {
+        document.getElementById("erro-senha").textContent = "";
+      }
+
+      const formData = new FormData(form);
+
+      fetch("../../BackEnd/Coordenador/coordenador_processamento.php", {
+        method: "POST",
+        body: formData
+      })
+      .then(async res => {
+        const msg = await res.text();
+        if (!res.ok) throw new Error(msg);
+        alert(msg);
+        form.reset();
+      })
+      .catch(err => {
+        alert("Erro: " + err.message);
+      });
+    });
+
+    fetch("../../BackEnd/Coordenador/Listar_cursos.php")
+    .then(response => response.json())
+    .then(data => {
+        const select = document.getElementById("curso");
+        data.forEach(curso => {
+            const option = document.createElement("option");
+            option.value = curso.Nome_curso;
+            option.textContent = curso.Nome_curso;
+            select.appendChild(option);
+        });
+    })
+    .catch(error => {
+        console.error("Erro ao carregar cursos:", error);
+    });
+  </script>
 </body>
 </html>

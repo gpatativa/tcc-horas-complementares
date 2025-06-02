@@ -9,6 +9,25 @@
     <link rel="stylesheet" href="PlataformaCoordenador.css">
     <script defer src="Menu.js"></script> 
 </head>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        fetch("../../BackEnd/Coordenador/Listar_coordenadores.php") // ajuste o caminho se necessário
+            .then(response => response.json())
+            .then(data => {
+                const select = document.getElementById("Coordenador");
+                data.forEach(coordenador => {
+                    const option = document.createElement("option");
+                    option.value = coordenador.Nome;
+                    option.textContent = coordenador.Nome;
+                    select.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error("Erro ao carregar coordenadores:", error);
+            });
+    });
+</script>
+
 <body>
 
     <div id="menu-container"></div> 
@@ -19,15 +38,18 @@
             <label for="Nome_curso">Nome:</label>
             <input type="text" id="Nome_curso" name="Nome_curso" required>
             
-            <label for="Quant_periodos">Quantidade de períodos:</label>
-            <input type="number" id="Quant_periodos" name="Quant_periodos" placeholder="Apenas números" required>
+            <label for="Ano_inicio">Ano de Início:</label>
+            <input type="number" id="Ano_inicio" name="Ano_inicio" placeholder="Ano em que o aluno ingressou" required>
 
             <label for="Coordenador">Nome do Coordenador:</label>
-            <input type="text" id="Coordenador" name="Coordenador" required>
+            <select id="Coordenador" name="Coordenador" required>
+                <option value="">Selecione um coordenador</option>
+            </select>
+
 
             <button type="submit">Cadastrar</button>
         </form>
     </div>
-
+    <script src="Menu.js"></script>
 </body>
 </html>

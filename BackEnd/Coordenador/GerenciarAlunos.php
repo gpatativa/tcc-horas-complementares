@@ -20,9 +20,9 @@ while ($row = mysqli_fetch_assoc($res)) {
 }
 
 // Períodos
-$res = mysqli_query($conn, "SELECT DISTINCT Periodo FROM aluno");
+$res = mysqli_query($conn, "SELECT DISTINCT Ano_inicio FROM aluno");
 while ($row = mysqli_fetch_assoc($res)) {
-    $dados['periodos'][] = $row['Periodo'];
+    $dados['anoInicio'][] = $row['Ano_inicio'];
 }
 
 header('Content-Type: application/json');

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Editar Atividade</title>
+  <link rel="stylesheet" href="Alunos.css" />
+</head>
+<body>
+
+  <header>
+    <div id="menu-container"></div>
+  </header>
+
+  <main class="conteudo">
+    <h1>Editar Atividade Complementar</h1>
+
+    <form id="form-editar" class="formulario" enctype="multipart/form-data">
+      <input type="hidden" name="Id" id="Id" />
+
+      <label for="categoria">Categoria:</label>
+      <select id="categoria" name="categoria" required>
+        <option value="">Carregando categorias...</option>
+      </select>
+
+      <label for="descricao">Descrição:</label>
+      <select id="descricao" name="descricao" required>
+        <option value="">Selecione a categoria primeiro</option>
+      </select>
+
+      <label for="descricao_texto">Resumo da Atividade:</label>
+      <textarea name="descricao_texto" id="descricao_texto" rows="4" required></textarea>
+
+      <label for="horas">Quantidade de horas solicitadas:</label>
+      <input type="number" name="horas" id="horas" min="1" required />
+
+      <label for="comprovante">Atualizar Comprovante (PDF):</label>
+      <input type="file" name="comprovante" id="comprovante" accept=".pdf" />
+      <div id="arquivo-atual" style="margin-top: 5px; font-style: italic; color: #333;"></div>
+      <div id="nome-arquivo" style="margin-top: 5px; font-style: italic; color: #333;"></div>
+
+      <button type="submit" class="botao-principal">Salvar Alterações</button>
+    </form>
+  </main>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const atividadeId = urlParams.get('id');
+  
+    const form = document.getElementById('form-editar');
+    const categoriaSelect = document.getElementById('categoria');
+    const descricaoSelect = document.getElementById('descricao');
+  
+    const inputComprovante = document.getElementById('comprovante');
+    const nomeArquivoSpan = document.getElementById('nome-arquivo');
+    const arquivoAtualSpan = document.getElementById('arquivo-atual');
+  
+    // Carrega categorias
+    fetch('../../BackEnd/Aluno/Listar_categorias.php')
+      .then(res => res.json())
+      .then(categorias => {
+        categoriaSelect.innerHTML = '<option value="">Selecione</option>';
+        categorias.forEach(cat => {
+          const opt = document.createElement('option');
+          opt.value = cat.Id;
+          opt.textContent = cat.Categoria;
+          categoriaSelect.appendChild(opt);
+        });
+      });
+  
+    // Carrega dados da atividade
+    fetch(`../../BackEnd/Aluno/Buscar_atividade.php?id=${atividadeId}`)
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('Id').value = data.Id;
+        document.getElementById('descricao_texto').value = data.Resumo;
+        document.getElementById('horas').value = data.CargaHoraria;
+        categoriaSelect.value = data.CategoriaId;
+  
+        // Exibe o nome do arquivo já existente
+        if (data.ArquivoComprovante) {
+          arquivoAtualSpan.innerHTML = `📎 Arquivo atual: <strong>${data.ArquivoComprovante}</strong>`;
+        }
+  
+        // Carrega descrições da categoria selecionada
+        return fetch(`../../BackEnd/Aluno/Listar_descricoes_por_categoria.php?categoriaId=${data.CategoriaId}`)
+          .then(res => res.json())
+          .then(descricoes => {
+            descricaoSelect.innerHTML = '<option value="">Selecione</option>';
+            descricoes.forEach(desc => {
+              const opt = document.createElement('option');
+              opt.value = desc.Id;
+              opt.textContent = desc.Descricao;
+              descricaoSelect.appendChild(opt);
+            });
+            descricaoSelect.value = data.CategoriaAtividadeId;
+          });
+      });
+  
+    // Atualiza descrições ao mudar categoria
+    categoriaSelect.addEventListener('change', () => {
+      const categoriaId = categoriaSelect.value;
+      descricaoSelect.innerHTML = '<option value="">Carregando...</option>';
+  
+      fetch(`../../BackEnd/Aluno/Listar_descricoes_por_categoria.php?categoriaId=${categoriaId}`)
+        .then(res => res.json())
+        .then(descricoes => {
+          descricaoSelect.innerHTML = '<option value="">Selecione</option>';
+          descricoes.forEach(desc => {
+            const opt = document.createElement('option');
+            opt.value = desc.Id;
+            opt.textContent = desc.Descricao;
+            descricaoSelect.appendChild(opt);
+          });
+        });
+    });
+  
+    // Mostra nome do novo arquivo selecionado
+    inputComprovante.addEventListener('change', function () {
+      if (this.files && this.files.length > 0) {
+        nomeArquivoSpan.textContent = `📄 Novo arquivo selecionado: ${this.files[0].name}`;
+      } else {
+        nomeArquivoSpan.textContent = '';
+      }
+    });
+  
+    // Envia formulário
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+  
+      const formData = new FormData(form);
+  
+      fetch('../../BackEnd/Aluno/Atualizar_atividade.php', {
+        method: 'POST',
+        body: formData
+      })
+        .then(res => res.text())
+        .then(msg => {
+          alert(msg);
+          window.location.href = 'Listar_atividades.html';
+        })
+        .catch(err => alert("Erro ao atualizar: " + err.message));
+    });
+  </script>
+    
+  
+  <script src="Menu.js"></script>
+</body>
+</html>

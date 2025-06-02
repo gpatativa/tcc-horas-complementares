@@ -16,6 +16,7 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0px 0px 10px #00000010;
+            margin-left: calc(220px + (100% - 220px - 900px) / 2);
         }
 
         table {
@@ -40,7 +41,7 @@
         }
 
         .add-button {
-            background-color: #0b1553;
+            background-color: #1e3765;
             color: white;
             padding: 8px 16px;
             border-radius: 5px;
@@ -49,7 +50,7 @@
         }
 
         .add-button:hover {
-            background-color: #2f455b;
+            background-color: #1e3765;
         }
 
         .container-cursos {
@@ -59,4 +60,6 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0px 0px 10px #00000010;
+            margin-left: calc(220px + (100% - 220px - 900px) / 2);
         }
+        

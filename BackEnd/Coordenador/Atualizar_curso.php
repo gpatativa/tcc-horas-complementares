@@ -3,11 +3,11 @@ require_once('../conexao.php');
 
 $id = $_POST['Id_curso'];
 $nome = $_POST['Nome_curso'];
-$periodos = $_POST['Quant_periodos'];
+$anoInicio = $_POST['Ano_inicio'];
 $coordenador = $_POST['Coordenador'];
 
 $sql = "UPDATE cursos 
-        SET Nome_curso = '$nome', Quant_periodos = '$periodos', Coordenador = '$coordenador'
+        SET Nome_curso = '$nome', Ano_inicio = '$anoInicio', Coordenador = '$coordenador'
         WHERE Id_curso = $id";
 
 if (mysqli_query($conn, $sql)) {
