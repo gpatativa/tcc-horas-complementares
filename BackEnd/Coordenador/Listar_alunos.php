@@ -9,8 +9,20 @@ if (!isset($_SESSION['usuario_tipo']) || $_SESSION['usuario_tipo'] !== 'coordena
     exit();
 }
 
-// Busca todos os alunos, incluindo as horas aprovadas
-$sql = "SELECT Id, Nome, RA, Curso, Ano_inicio, email, TotalHorasAprovadas FROM aluno";
+// Busca todos os alunos com nome do curso e total de horas aprovadas
+$sql = "
+SELECT 
+    a.Id, 
+    a.Nome, 
+    a.RA, 
+    c.Nome_curso AS Curso, 
+    a.Ano_inicio, 
+    a.email, 
+    a.TotalHorasAprovadas
+FROM aluno a
+LEFT JOIN cursos c ON a.CursoId = c.Id_curso
+";
+
 $result = $conn->query($sql);
 
 $alunos = [];
