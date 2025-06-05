@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 02/06/2025 às 05:13
--- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.0.30
+-- Generation Time: Jun 05, 2025 at 11:32 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,40 +18,42 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Banco de dados: `tccdb`
+-- Database: `tccdb`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `aluno`
+-- Table structure for table `aluno`
 --
 
 CREATE TABLE `aluno` (
   `Id` int(11) NOT NULL,
   `Nome` varchar(255) NOT NULL,
   `RA` varchar(50) NOT NULL,
-  `Curso` varchar(255) NOT NULL,
   `Ano_inicio` varchar(50) NOT NULL,
   `Senha` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `TotalHorasAprovadas` int(11) DEFAULT 0
+  `TotalHorasAprovadas` int(11) DEFAULT 0,
+  `CursoId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `aluno`
+-- Dumping data for table `aluno`
 --
 
-INSERT INTO `aluno` (`Id`, `Nome`, `RA`, `Curso`, `Ano_inicio`, `Senha`, `email`, `TotalHorasAprovadas`) VALUES
-(1, 'Gustavo Oliveira Patativa', '0766231', 'Tads', '2023', '$2y$10$Xju1jLhWCAVc/s3xqT5uRO0DXpgpCN2vX9mjlkOQ8cooGUstkCLNW', 'Gustavo@gmail.com', 0),
-(4, 'Mariana Pedroso', '741852963', 'tads', '2023', '$2y$10$htD4kU0eG/BM5dPgcwJVCuiW7.7rmIiNE8ICM/VwEsmL6hffZi8ve', 'teste@teste.com', 25),
-(5, 'testando novamente', '987654321', 'TADS', '2025', '$2y$10$/QUS80iEpuWw3SieoDhXTuX2.4J3ZCwz8.fUwqDA/14CpKXcQwxHq', 'teste@teste.com', 0),
-(6, 'Gustavo', '07662312', 'Tads', '2034', '$2y$10$CQyk/dst7AVnAj/uWzPHjueOQnECpwYFx1P9t9i0NQ6evcWgvIl2a', 'patativa1301@gmail.com', 103);
+INSERT INTO `aluno` (`Id`, `Nome`, `RA`, `Ano_inicio`, `Senha`, `email`, `TotalHorasAprovadas`, `CursoId`) VALUES
+(1, 'Gustavo Oliveira Patativa', '0766231', '2023', '$2y$10$Xju1jLhWCAVc/s3xqT5uRO0DXpgpCN2vX9mjlkOQ8cooGUstkCLNW', 'Gustavo@gmail.com', 0, 2),
+(4, 'Mariana Pedroso', '741852963', '2023', '$2y$10$htD4kU0eG/BM5dPgcwJVCuiW7.7rmIiNE8ICM/VwEsmL6hffZi8ve', 'teste@teste.com', 25, 2),
+(5, 'testando novamente', '987654321', '2025', '$2y$10$/QUS80iEpuWw3SieoDhXTuX2.4J3ZCwz8.fUwqDA/14CpKXcQwxHq', 'teste@teste.com', 0, 2),
+(6, 'Gustavo', '07662312', '2034', '$2y$10$CQyk/dst7AVnAj/uWzPHjueOQnECpwYFx1P9t9i0NQ6evcWgvIl2a', 'patativa1301@gmail.com', 103, 2),
+(7, 'Gustavo', '40028923', '2023', '$2y$10$XcQJiCzVU3vhQMeMAN7sZOjdWQ426xIg9jZ1rs1WZdeuFRkb./Xt.', 'teste@teste.com', 0, 2),
+(8, 'Mariana', '11582311', '2025', '$2y$10$T..uvT.Kd0/XdtpdFGjWA.M/0CEGvLZC73PWkHWFAGG/YR.gh9p5a', 'teste@teste.com', 0, 3);
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `atividadecomplementar`
+-- Table structure for table `atividadecomplementar`
 --
 
 CREATE TABLE `atividadecomplementar` (
@@ -69,7 +71,7 @@ CREATE TABLE `atividadecomplementar` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `atividadecomplementar`
+-- Dumping data for table `atividadecomplementar`
 --
 
 INSERT INTO `atividadecomplementar` (`Id`, `AlunoId`, `CategoriaAtividadeId`, `Descricao`, `Resumo`, `Data`, `CargaHoraria`, `HorasAprovadas`, `ArquivoComprovante`, `Status`, `ObservacaoCoordenador`) VALUES
@@ -91,7 +93,7 @@ INSERT INTO `atividadecomplementar` (`Id`, `AlunoId`, `CategoriaAtividadeId`, `D
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `atividade_categoria`
+-- Table structure for table `atividade_categoria`
 --
 
 CREATE TABLE `atividade_categoria` (
@@ -102,7 +104,7 @@ CREATE TABLE `atividade_categoria` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `atividade_categoria`
+-- Dumping data for table `atividade_categoria`
 --
 
 INSERT INTO `atividade_categoria` (`Id`, `CategoriaId`, `Descricao`, `CargaHorariaMaxima`) VALUES
@@ -117,7 +119,7 @@ INSERT INTO `atividade_categoria` (`Id`, `CategoriaId`, `Descricao`, `CargaHorar
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `avaliacaoatividade`
+-- Table structure for table `avaliacaoatividade`
 --
 
 CREATE TABLE `avaliacaoatividade` (
@@ -131,7 +133,7 @@ CREATE TABLE `avaliacaoatividade` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `avaliacaoatividade`
+-- Dumping data for table `avaliacaoatividade`
 --
 
 INSERT INTO `avaliacaoatividade` (`Id`, `AtividadeComplementarId`, `CoordenadorId`, `DataAvaliacao`, `Status`, `Observacao`, `HorasAprovadas`) VALUES
@@ -150,7 +152,7 @@ INSERT INTO `avaliacaoatividade` (`Id`, `AtividadeComplementarId`, `CoordenadorI
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `categoria`
+-- Table structure for table `categoria`
 --
 
 CREATE TABLE `categoria` (
@@ -159,7 +161,7 @@ CREATE TABLE `categoria` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `categoria`
+-- Dumping data for table `categoria`
 --
 
 INSERT INTO `categoria` (`Id`, `Categoria`) VALUES
@@ -169,7 +171,7 @@ INSERT INTO `categoria` (`Id`, `Categoria`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `coordenador`
+-- Table structure for table `coordenador`
 --
 
 CREATE TABLE `coordenador` (
@@ -181,7 +183,7 @@ CREATE TABLE `coordenador` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `coordenador`
+-- Dumping data for table `coordenador`
 --
 
 INSERT INTO `coordenador` (`Id`, `Nome`, `RA`, `Senha`, `email`) VALUES
@@ -195,7 +197,7 @@ INSERT INTO `coordenador` (`Id`, `Nome`, `RA`, `Senha`, `email`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `cursos`
+-- Table structure for table `cursos`
 --
 
 CREATE TABLE `cursos` (
@@ -207,7 +209,7 @@ CREATE TABLE `cursos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `cursos`
+-- Dumping data for table `cursos`
 --
 
 INSERT INTO `cursos` (`Id_curso`, `Nome_curso`, `Ano_inicio`, `Coordenador`, `Data_cadastro`) VALUES
@@ -215,18 +217,19 @@ INSERT INTO `cursos` (`Id_curso`, `Nome_curso`, `Ano_inicio`, `Coordenador`, `Da
 (3, 'Pedagogia', 2025, 'Taciane', '2025-04-06');
 
 --
--- Índices para tabelas despejadas
+-- Indexes for dumped tables
 --
 
 --
--- Índices de tabela `aluno`
+-- Indexes for table `aluno`
 --
 ALTER TABLE `aluno`
   ADD PRIMARY KEY (`Id`),
-  ADD UNIQUE KEY `RA` (`RA`);
+  ADD UNIQUE KEY `RA` (`RA`),
+  ADD KEY `fk_aluno_curso` (`CursoId`);
 
 --
--- Índices de tabela `atividadecomplementar`
+-- Indexes for table `atividadecomplementar`
 --
 ALTER TABLE `atividadecomplementar`
   ADD PRIMARY KEY (`Id`),
@@ -234,14 +237,14 @@ ALTER TABLE `atividadecomplementar`
   ADD KEY `CategoriaAtividadeId` (`CategoriaAtividadeId`);
 
 --
--- Índices de tabela `atividade_categoria`
+-- Indexes for table `atividade_categoria`
 --
 ALTER TABLE `atividade_categoria`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `CategoriaId` (`CategoriaId`);
 
 --
--- Índices de tabela `avaliacaoatividade`
+-- Indexes for table `avaliacaoatividade`
 --
 ALTER TABLE `avaliacaoatividade`
   ADD PRIMARY KEY (`Id`),
@@ -249,89 +252,95 @@ ALTER TABLE `avaliacaoatividade`
   ADD KEY `CoordenadorId` (`CoordenadorId`);
 
 --
--- Índices de tabela `categoria`
+-- Indexes for table `categoria`
 --
 ALTER TABLE `categoria`
   ADD PRIMARY KEY (`Id`);
 
 --
--- Índices de tabela `coordenador`
+-- Indexes for table `coordenador`
 --
 ALTER TABLE `coordenador`
   ADD PRIMARY KEY (`Id`),
   ADD UNIQUE KEY `RA` (`RA`);
 
 --
--- Índices de tabela `cursos`
+-- Indexes for table `cursos`
 --
 ALTER TABLE `cursos`
   ADD PRIMARY KEY (`Id_curso`);
 
 --
--- AUTO_INCREMENT para tabelas despejadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de tabela `aluno`
+-- AUTO_INCREMENT for table `aluno`
 --
 ALTER TABLE `aluno`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT de tabela `atividadecomplementar`
+-- AUTO_INCREMENT for table `atividadecomplementar`
 --
 ALTER TABLE `atividadecomplementar`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
--- AUTO_INCREMENT de tabela `atividade_categoria`
+-- AUTO_INCREMENT for table `atividade_categoria`
 --
 ALTER TABLE `atividade_categoria`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT de tabela `avaliacaoatividade`
+-- AUTO_INCREMENT for table `avaliacaoatividade`
 --
 ALTER TABLE `avaliacaoatividade`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT de tabela `categoria`
+-- AUTO_INCREMENT for table `categoria`
 --
 ALTER TABLE `categoria`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de tabela `coordenador`
+-- AUTO_INCREMENT for table `coordenador`
 --
 ALTER TABLE `coordenador`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- AUTO_INCREMENT de tabela `cursos`
+-- AUTO_INCREMENT for table `cursos`
 --
 ALTER TABLE `cursos`
   MODIFY `Id_curso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- Restrições para tabelas despejadas
+-- Constraints for dumped tables
 --
 
 --
--- Restrições para tabelas `atividadecomplementar`
+-- Constraints for table `aluno`
+--
+ALTER TABLE `aluno`
+  ADD CONSTRAINT `fk_aluno_curso` FOREIGN KEY (`CursoId`) REFERENCES `cursos` (`Id_curso`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `atividadecomplementar`
 --
 ALTER TABLE `atividadecomplementar`
   ADD CONSTRAINT `atividadecomplementar_ibfk_1` FOREIGN KEY (`AlunoId`) REFERENCES `aluno` (`Id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_nova_categoria` FOREIGN KEY (`CategoriaAtividadeId`) REFERENCES `atividade_categoria` (`Id`);
 
 --
--- Restrições para tabelas `atividade_categoria`
+-- Constraints for table `atividade_categoria`
 --
 ALTER TABLE `atividade_categoria`
   ADD CONSTRAINT `atividade_categoria_ibfk_1` FOREIGN KEY (`CategoriaId`) REFERENCES `categoria` (`Id`);
 
 --
--- Restrições para tabelas `avaliacaoatividade`
+-- Constraints for table `avaliacaoatividade`
 --
 ALTER TABLE `avaliacaoatividade`
   ADD CONSTRAINT `avaliacaoatividade_ibfk_1` FOREIGN KEY (`AtividadeComplementarId`) REFERENCES `atividadecomplementar` (`Id`) ON DELETE CASCADE,

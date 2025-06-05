@@ -16,7 +16,7 @@
         .then(data => {
           data.forEach(curso => {
             const option = document.createElement("option");
-            option.value = curso.Nome_curso;
+            option.value = curso.Id_curso; // valor correto agora é o ID
             option.textContent = curso.Nome_curso;
             cursoSelect.appendChild(option);
           });
@@ -54,19 +54,18 @@
       <input type="email" id="email" name="email" required>
 
       <div class="filtro-bloco">
-  <label for="curso">Curso:</label>
-  <select id="curso" name="curso" required>
-    <option value="">Selecione o curso</option>
-  </select>
-</div>
+        <label for="curso">Curso:</label>
+        <select id="curso" name="cursoId" required>
+          <option value="">Selecione o curso</option>
+        </select>
+      </div>
 
-<div class="filtro-bloco">
-  <label for="Ano_inicio">Ano de início:</label>
-  <select id="Ano_inicio" name="Ano_inicio" required>
-    <option value="">Selecione o ano</option>
-  </select>
-</div>
-
+      <div class="filtro-bloco">
+        <label for="Ano_inicio">Ano de início:</label>
+        <select id="Ano_inicio" name="Ano_inicio" required>
+          <option value="">Selecione o ano</option>
+        </select>
+      </div>
 
       <label for="senha">Senha:</label>
       <input type="password" id="senha" name="senha" placeholder="Pelo menos 8 caracteres">
@@ -96,7 +95,6 @@
         method: "POST",
         body: formData
       })
-
       .then(async res => {
         const msg = await res.text();
         if (!res.ok) throw new Error(msg);
