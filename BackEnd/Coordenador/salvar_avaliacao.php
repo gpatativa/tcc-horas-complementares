@@ -51,8 +51,6 @@ if (!$stmtInsert) {
 $stmtInsert->bind_param("iisssi", $atividadeId, $coordenadorId, $dataAvaliacao, $status, $observacao, $horasAprovadas);
 $stmtInsert->execute();
 
-<<<<<<< HEAD
-=======
 //Atualiza TotalHorasAprovadas do aluno
 // Busca o ID do aluno da atividade
 $stmtAluno = $conn->prepare("SELECT AlunoId FROM atividadecomplementar WHERE Id = ?");
@@ -77,7 +75,6 @@ if ($alunoId) {
 }
 
 // Redireciona com mensagem
->>>>>>> 3ea9460bd764df149750bc038f31ce0840559af1
 echo "<script>alert('Avaliação salva com sucesso!'); window.location.href='Home_coordenador.php';</script>";
 exit;
 ?>
